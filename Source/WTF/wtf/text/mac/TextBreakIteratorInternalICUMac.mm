@@ -53,21 +53,29 @@ static const int maxLocaleStringLength = 32;
 
 static inline RetainPtr<CFStringRef> textBreakLocalePreference()
 {
+#if PLATFORM(GNUSTEP)
+    return static_cast<CFStringRef>(CFSTR("en_US_POSIX"));
+#else
     RetainPtr<CFPropertyListRef> locale = adoptCF(CFPreferencesCopyValue(CFSTR("AppleTextBreakLocale"),
         kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
     if (!locale || CFGetTypeID(locale.get()) != CFStringGetTypeID())
         return nullptr;
     return static_cast<CFStringRef>(locale.get());
+#endif
 }
 
 static RetainPtr<CFStringRef> topLanguagePreference()
 {
+#if PLATFORM(GNUSTEP)
+    return nullptr;
+#else
     RetainPtr<CFArrayRef> languagesArray = adoptCF(CFLocaleCopyPreferredLanguages());
     if (!languagesArray)
         return nullptr;
     if (!CFArrayGetCount(languagesArray.get()))
         return nullptr;
     return static_cast<CFStringRef>(CFArrayGetValueAtIndex(languagesArray.get(), 0));
+#endif
 }
 
 static void getLocale(CFStringRef locale, char localeStringBuffer[maxLocaleStringLength])
