@@ -39,7 +39,7 @@
 
 namespace WTF {
 
-#if PLATFORM(COCOA)
+#if PLATFORM(COCOA) && !PLATFORM(GNUSTEP)
 
 SHA1::SHA1()
 {

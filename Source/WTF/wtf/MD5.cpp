@@ -59,7 +59,7 @@
 
 namespace WTF {
 
-#if PLATFORM(COCOA)
+#if PLATFORM(COCOA) && !PLATFORM(GNUSTEP)
 
 MD5::MD5()
 {

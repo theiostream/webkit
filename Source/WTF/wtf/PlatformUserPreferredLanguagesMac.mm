@@ -88,6 +88,7 @@ static String httpStyleLanguageCode(NSString *language)
     // 1. There is no reason why CFBundle localization names would be at all related to language names as used on the Web.
     // 2. Script Manager codes cannot represent all languages that are now supported by the platform, so the conversion is lossy.
     // 3. This should probably match what is sent by the network layer as Accept-Language, but currently, that's implemented separately.
+#if !PLATFORM(GNUSTEP)
     CFBundleGetLocalizationInfoForLocalization((CFStringRef)language, &languageCode, &regionCode, &scriptCode, &stringEncoding);
     RetainPtr<CFStringRef> preferredLanguageCode = adoptCF(CFBundleCopyLocalizationForLocalizationInfo(languageCode, regionCode, scriptCode, stringEncoding));
     if (preferredLanguageCode)
@@ -99,6 +100,7 @@ static String httpStyleLanguageCode(NSString *language)
         [mutableLanguageCode.get() replaceCharactersInRange:NSMakeRange(2, 1) withString:@"-"];
         return mutableLanguageCode.get();
     }
+#endif
 
     return language;
 }
@@ -118,6 +120,9 @@ Vector<String> platformUserPreferredLanguages()
     Vector<String>& userPreferredLanguages = preferredLanguages();
 
     if (userPreferredLanguages.isEmpty()) {
+#if PLATFORM(GNUSTEP)
+        userPreferredLanguages.append("en");
+#else
         RetainPtr<CFArrayRef> languages = adoptCF(CFLocaleCopyPreferredLanguages());
         CFIndex languageCount = CFArrayGetCount(languages.get());
         if (!languageCount)
@@ -126,6 +131,7 @@ Vector<String> platformUserPreferredLanguages()
             for (CFIndex i = 0; i < languageCount; i++)
                 userPreferredLanguages.append(httpStyleLanguageCode((NSString *)CFArrayGetValueAtIndex(languages.get(), i)));
         }
+#endif
     }
 
     Vector<String> userPreferredLanguagesCopy;

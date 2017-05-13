@@ -167,7 +167,11 @@ template<typename T> inline typename RetainPtr<T>::PtrType RetainPtr<T>::leakRef
 #ifdef __OBJC__
 template<typename T> inline auto RetainPtr<T>::autorelease() -> PtrType
 {
+#if PLATFORM(GNUSTEP)
+    return (__bridge PtrType)leakRef();
+#else
     return (__bridge PtrType)CFBridgingRelease(leakRef());
+#endif
 }
 #endif
 

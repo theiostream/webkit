@@ -34,7 +34,7 @@
 #include <array>
 #include <wtf/Vector.h>
 
-#if PLATFORM(COCOA)
+#if PLATFORM(COCOA) && !PLATFORM(GNUSTEP)
 #include <CommonCrypto/CommonDigest.h>
 #endif
 
@@ -60,7 +60,7 @@ public:
     WTF_EXPORT_PRIVATE void checksum(Digest&);
 
 private:
-#if PLATFORM(COCOA)
+#if PLATFORM(COCOA) && !PLATFORM(GNUSTEP)
     CC_MD5_CTX m_context;
 #else
     uint32_t m_buf[4];

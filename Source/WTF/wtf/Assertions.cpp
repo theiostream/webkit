@@ -54,7 +54,7 @@
 
 #if USE(CF)
 #include <CoreFoundation/CFString.h>
-#if PLATFORM(COCOA)
+#if PLATFORM(COCOA) && !PLATFORM(GNUSTEP)
 #define USE_APPLE_SYSTEM_LOG 1
 #include <asl.h>
 #endif

@@ -35,7 +35,7 @@
 #include <wtf/Vector.h>
 #include <wtf/text/CString.h>
 
-#if PLATFORM(COCOA)
+#if PLATFORM(COCOA) && !PLATFORM(GNUSTEP)
 #include <CommonCrypto/CommonDigest.h>
 #endif
 
@@ -71,7 +71,7 @@ public:
     WTF_EXPORT_PRIVATE CString computeHexDigest();
 
 private:
-#if PLATFORM(COCOA)
+#if PLATFORM(COCOA) && !PLATFORM(GNUSTEP)
     CC_SHA1_CTX m_context;
 #else
     void finalize();

@@ -72,7 +72,7 @@ CFTypeRef SecTaskCopyValueForEntitlement(SecTaskRef, CFStringRef entitlement, CF
 CFStringRef SecTaskCopySigningIdentifier(SecTaskRef, CFErrorRef *);
 #endif
 
-#if PLATFORM(MAC)
+#if PLATFORM(MAC) && !PLATFORM(GNUSTEP)
 #include <Security/SecAsn1Types.h>
 extern const SecAsn1Template kSecAsn1AlgorithmIDTemplate[];
 extern const SecAsn1Template kSecAsn1SubjectPublicKeyInfoTemplate[];

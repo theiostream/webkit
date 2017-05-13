@@ -29,6 +29,9 @@
 // but it should be ObjC with an uppercase C.
 
 #include <objc/message.h>
+#if PLATFORM(GNUSTEP)
+#include <objc/runtime.h>
+#endif
 
 #ifdef __cplusplus
 
