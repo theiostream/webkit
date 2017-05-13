@@ -7,7 +7,7 @@ list(APPEND WTF_LIBRARIES
     ${COREFOUNDATION_LIBRARY}
     ${COCOA_LIBRARY}
     ${READLINE_LIBRARY}
-    libicucore.dylib
+    libicucore
 )
 
 list(APPEND WTF_SOURCES
@@ -23,8 +23,6 @@ list(APPEND WTF_SOURCES
     cf/RunLoopCF.cpp
 
     cocoa/CPUTimeCocoa.mm
-    cocoa/MemoryFootprintCocoa.cpp
-    cocoa/MemoryPressureHandlerCocoa.mm
     cocoa/WorkQueueCocoa.cpp
 
     mac/DeprecatedSymbolsUsedBySafari.mm
@@ -39,6 +37,18 @@ list(APPEND WTF_SOURCES
     text/mac/StringMac.mm
     text/mac/StringViewObjC.mm
 )
+
+if(WTF_LINUX)
+list(APPEND WTF_SOURCES
+    linux/MemoryFootprintLinux.cpp
+    linux/MemoryPressureHandlerLinux.cpp
+)
+else(WTF_LINUX)
+list(APPEND WTF_SOURCES
+    cocoa/MemoryFootprintCocoa.cpp
+    cocoa/MemoryPressureHandlerCocoa.mm
+)
+endif(WTF_LINUX)
 
 list(APPEND WTF_INCLUDE_DIRECTORIES
     "${WTF_DIR}/icu"
