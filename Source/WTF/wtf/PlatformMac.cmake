@@ -22,7 +22,6 @@ list(APPEND WTF_SOURCES
 
     cf/RunLoopCF.cpp
 
-    cocoa/CPUTimeCocoa.mm
     cocoa/WorkQueueCocoa.cpp
 
     mac/DeprecatedSymbolsUsedBySafari.mm
@@ -42,11 +41,13 @@ if(WTF_LINUX)
 list(APPEND WTF_SOURCES
     linux/MemoryFootprintLinux.cpp
     linux/MemoryPressureHandlerLinux.cpp
+    unix/CPUTimeUnix.cpp
 )
 else(WTF_LINUX)
 list(APPEND WTF_SOURCES
     cocoa/MemoryFootprintCocoa.cpp
     cocoa/MemoryPressureHandlerCocoa.mm
+    cocoa/CPUTimeCocoa.mm
 )
 endif(WTF_LINUX)
 

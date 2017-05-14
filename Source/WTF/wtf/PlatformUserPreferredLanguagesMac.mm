@@ -34,6 +34,7 @@
 #import <wtf/NeverDestroyed.h>
 #import <wtf/RetainPtr.h>
 #import <wtf/spi/cf/CFBundleSPI.h>
+#import <dispatch/dispatch.h>
 #import <wtf/text/WTFString.h>
 
 namespace WTF {

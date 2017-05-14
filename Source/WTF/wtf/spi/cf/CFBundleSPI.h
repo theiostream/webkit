@@ -30,13 +30,15 @@
 
 #if USE(APPLE_INTERNAL_SDK)
 #import <CoreFoundation/CFPriv.h>
-#else
+#elif OS(DARWIN)
 #include <wtf/spi/darwin/XPCSPI.h>
 #endif
 
 WTF_EXTERN_C_BEGIN
 
+#if OS(DARWIN)
 void _CFBundleSetupXPCBootstrap(xpc_object_t bootstrap);
+#endif
 
 CFBundleRef _CFBundleCreateUnique(CFAllocatorRef, CFURLRef bundleURL);
 Boolean CFBundleGetLocalizationInfoForLocalization(CFStringRef localizationName, SInt32 *languageCode, SInt32 *regionCode, SInt32 *scriptCode, CFStringEncoding *stringEncoding);
