@@ -29,7 +29,7 @@
 #include "config.h"
 #include "SchedulePair.h"
 
-#if !USE(CFURLCONNECTION) || !PLATFORM(GNUSTEP)
+#if !USE(CFURLCONNECTION) && !PLATFORM(GNUSTEP)
 
 namespace WTF {
 
