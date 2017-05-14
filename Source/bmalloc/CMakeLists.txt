@@ -1,4 +1,5 @@
 set_property(DIRECTORY . PROPERTY FOLDER "bmalloc")
+include(WebKitMacros)
 
 set(bmalloc_INCLUDE_DIRECTORIES
     "${BMALLOC_DIR}"
