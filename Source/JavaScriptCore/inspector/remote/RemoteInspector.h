@@ -31,10 +31,12 @@
 #include <wtf/HashMap.h>
 #include <wtf/Lock.h>
 
-#if PLATFORM(COCOA)
+#if OS(DARWIN)
 #include "RemoteInspectorXPCConnection.h"
 #include <wtf/RetainPtr.h>
+#endif
 
+#if PLATFORM(COCOA)
 OBJC_CLASS NSDictionary;
 OBJC_CLASS NSString;
 typedef RetainPtr<NSDictionary> TargetListing;
@@ -57,7 +59,7 @@ class RemoteInspectionTarget;
 class RemoteInspectorClient;
 
 class JS_EXPORT_PRIVATE RemoteInspector final
-#if PLATFORM(COCOA)
+#if OS(DARWIN)
     : public RemoteInspectorXPCConnection::Client
 #endif
 {
@@ -97,7 +99,7 @@ public:
     void start();
     void stop();
 
-#if PLATFORM(COCOA)
+#if OS(DARWIN)
     bool hasParentProcessInformation() const { return m_parentProcessIdentifier != 0; }
     pid_t parentProcessIdentifier() const { return m_parentProcessIdentifier; }
     RetainPtr<CFDataRef> parentProcessAuditData() const { return m_parentProcessAuditData; }
@@ -121,7 +123,7 @@ private:
     enum class StopSource { API, XPCMessage };
     void stopInternal(StopSource);
 
-#if PLATFORM(COCOA)
+#if OS(DARWIN)
     void setupXPCConnectionIfNeeded();
 #endif
 #if USE(GLIB)
@@ -149,7 +151,7 @@ private:
 
     void sendAutomaticInspectionCandidateMessage();
 
-#if PLATFORM(COCOA)
+#if OS(DARWIN)
     void xpcConnectionReceivedMessage(RemoteInspectorXPCConnection*, NSString *messageName, NSDictionary *userInfo) override;
     void xpcConnectionFailed(RemoteInspectorXPCConnection*) override;
     void xpcConnectionUnhandledMessage(RemoteInspectorXPCConnection*, xpc_object_t) override;
@@ -178,7 +180,7 @@ private:
     HashMap<unsigned, RefPtr<RemoteConnectionToTarget>> m_targetConnectionMap;
     HashMap<unsigned, TargetListing> m_targetListingMap;
 
-#if PLATFORM(COCOA)
+#if OS(DARWIN)
     RefPtr<RemoteInspectorXPCConnection> m_relayConnection;
 #endif
 #if USE(GLIB)
@@ -189,7 +191,7 @@ private:
     RemoteInspector::Client* m_client { nullptr };
     std::optional<RemoteInspector::Client::Capabilities> m_clientCapabilities;
 
-#if PLATFORM(COCOA)
+#if OS(DARWIN)
     dispatch_queue_t m_xpcQueue;
 #endif
     unsigned m_nextAvailableTargetIdentifier { 1 };
@@ -199,7 +201,7 @@ private:
     bool m_pushScheduled { false };
 
     pid_t m_parentProcessIdentifier { 0 };
-#if PLATFORM(COCOA)
+#if OS(DARWIN)
     RetainPtr<CFDataRef> m_parentProcessAuditData;
 #endif
     bool m_shouldSendParentProcessInformation { false };

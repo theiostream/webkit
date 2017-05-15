@@ -45,7 +45,7 @@
 #include <wtf/text/StringBuilder.h>
 #include <wtf/threads/Signals.h>
 
-#if PLATFORM(COCOA)
+#if OS(DARWIN)
 #include <crt_externs.h>
 #endif
 
@@ -516,7 +516,7 @@ void Options::initialize()
             // Allow environment vars to override options if applicable.
             // The evn var should be the name of the option prefixed with
             // "JSC_".
-#if PLATFORM(COCOA)
+#if OS(DARWIN)
             bool hasBadOptions = false;
             for (char** envp = *_NSGetEnviron(); *envp; envp++) {
                 const char* env = *envp;
@@ -529,12 +529,12 @@ void Options::initialize()
             }
             if (hasBadOptions && Options::validateOptions())
                 CRASH();
-#else // PLATFORM(COCOA)
+#else // OS(DARWIN)
 #define FOR_EACH_OPTION(type_, name_, defaultValue_, availability_, description_) \
             overrideOptionWithHeuristic(name_(), name_##ID, "JSC_" #name_, Availability::availability_);
             JSC_OPTIONS(FOR_EACH_OPTION)
 #undef FOR_EACH_OPTION
-#endif // PLATFORM(COCOA)
+#endif // OS(DARWIN)
 
 #define FOR_EACH_OPTION(aliasedName_, unaliasedName_, equivalence_) \
             overrideAliasedOptionWithHeuristic("JSC_" #aliasedName_);
