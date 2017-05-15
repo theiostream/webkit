@@ -28,6 +28,7 @@
 #include <wtf/Noncopyable.h>
 
 #if USE(CF) && !OS(WINDOWS)
+#include <CoreFoundation/CFString.h>
 #include <CoreFoundation/CFRunLoop.h>
 #endif
 
