@@ -33,10 +33,11 @@
 
 #if OS(DARWIN)
 #include "RemoteInspectorXPCConnection.h"
-#include <wtf/RetainPtr.h>
 #endif
 
 #if PLATFORM(COCOA)
+#include <wtf/RetainPtr.h>
+
 OBJC_CLASS NSDictionary;
 OBJC_CLASS NSString;
 typedef RetainPtr<NSDictionary> TargetListing;
