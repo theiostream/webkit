@@ -28,6 +28,10 @@
 #import <wtf/HashSet.h>
 #import <wtf/Vector.h>
 
+extern "C" {
+#import <objc/objc-arc.h>
+}
+
 inline bool protocolImplementsProtocol(Protocol *candidate, Protocol *target)
 {
     unsigned protocolProtocolsCount;
@@ -228,15 +232,19 @@ typename DelegateType::ResultType parseObjCType(const char*& position)
     case '#': // A class object (Class)
     case ':': // A method selector (SEL)
     default:
-        return nil;
+        return nullptr;
     }
 }
 
+// FIXME for gnustep
+#define _protocol_getMethodTypeEncoding(a, b, c, d) \
+	protocol_getMethodDescription(a, b, c, d).types
+
 extern "C" {
     // Forward declare some Objective-C runtime internal methods that are not API.
-    const char *_protocol_getMethodTypeEncoding(Protocol *, SEL, BOOL isRequiredMethod, BOOL isInstanceMethod);
-    id objc_initWeak(id *, id);
-    void objc_destroyWeak(id *);
-    bool _Block_has_signature(void *);
-    const char * _Block_signature(void *);
+    //const char *_protocol_getMethodTypeEncoding(Protocol *, SEL, BOOL isRequiredMethod, BOOL isInstanceMethod);
+    //id objc_initWeak(id *, id);
+    //void objc_destroyWeak(id *);
+    //bool _Block_has_signature(void *);
+    //const char * _Block_signature(void *);
 }

@@ -59,7 +59,7 @@
 #undef isxdigit
 #undef toascii
 #undef tolower
-#undef toupper
+//#undef toupper
 
 #define isalnum isalnum_WTF_Please_use_ASCIICType_instead_of_ctype_see_comment_in_ASCIICType_h
 #define isalpha isalpha_WTF_Please_use_ASCIICType_instead_of_ctype_see_comment_in_ASCIICType_h
@@ -76,7 +76,7 @@
 #define isxdigit isxdigit_WTF_Please_use_ASCIICType_instead_of_ctype_see_comment_in_ASCIICType_h
 #define toascii toascii_WTF_Please_use_ASCIICType_instead_of_ctype_see_comment_in_ASCIICType_h
 #define tolower tolower_WTF_Please_use_ASCIICType_instead_of_ctype_see_comment_in_ASCIICType_h
-#define toupper toupper_WTF_Please_use_ASCIICType_instead_of_ctype_see_comment_in_ASCIICType_h
+//#define toupper toupper_WTF_Please_use_ASCIICType_instead_of_ctype_see_comment_in_ASCIICType_h
 
 #endif
 

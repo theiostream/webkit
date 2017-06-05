@@ -26,7 +26,7 @@
 #import "DateTests.h"
 #import <Foundation/Foundation.h>
 
-#if JSC_OBJC_API_ENABLED
+#if 0//JSC_OBJC_API_ENABLED
 
 extern "C" void checkResult(NSString *description, bool passed);
 

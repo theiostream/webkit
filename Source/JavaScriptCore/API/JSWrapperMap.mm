@@ -40,12 +40,14 @@
 #import "WeakGCMapInlines.h"
 #import <wtf/Vector.h>
 #import <wtf/spi/cocoa/NSMapTableSPI.h>
-#import <wtf/spi/darwin/dyldSPI.h>
 
+#if OS(DARWIN)
 #include <mach-o/dyld.h>
+#import <wtf/spi/darwin/dyldSPI.h>
+#endif
 
 #if PLATFORM(APPLETV)
-#else
+#elif OS(DARWIN)
 static const int32_t firstJavaScriptCoreVersionWithInitConstructorSupport = 0x21A0400; // 538.4.0
 #if PLATFORM(IOS)
 static const uint32_t firstSDKVersionWithInitConstructorSupport = DYLD_IOS_VERSION_10_0;
@@ -653,7 +655,10 @@ NS_ROOT_CLASS @interface JSExport <JSExport>
 
 bool supportsInitMethodConstructors()
 {
-#if PLATFORM(APPLETV)
+#if !OS(DARWIN)
+    // TODO gnustep
+    return true;
+#elif PLATFORM(APPLETV)
     // There are no old clients on Apple TV, so there's no need for backwards compatibility.
     return true;
 #else

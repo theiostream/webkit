@@ -30,6 +30,8 @@
 #import <objc/objc.h>
 #import <objc/runtime.h>
 
+#import <dispatch/dispatch.h>
+
 #if JSC_OBJC_API_ENABLED
 
 extern "C" void JSSynchronousGarbageCollectForDebugging(JSContextRef);
@@ -170,7 +172,7 @@ static const NSString* JSTEvaluatorThreadContextKey = @"JSTEvaluatorThreadContex
 
 - (void)evaluateBlock:(void(^)(JSContext* context))evaluationBlock completion:(void(^)(NSError* error))completionHandler
 {
-    NSParameterAssert(evaluationBlock != nil);
+    NSParameterAssert((id)evaluationBlock != nil);
     [self _accessPendingTasksWithBlock:^(NSMutableArray* pendingTasks) {
         JSTEvaluatorTask* task = [JSTEvaluatorTask evaluatorTaskWithEvaluateBlock:evaluationBlock
             completionHandler:completionHandler];

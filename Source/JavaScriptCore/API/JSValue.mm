@@ -1131,13 +1131,13 @@ static StructTagHandler* handerForStructTag(const char* encodedType)
 + (SEL)selectorForStructToValue:(const char *)structTag
 {
     StructTagHandler* handler = handerForStructTag(structTag);
-    return handler ? handler->typeToValueSEL : nil;
+    return handler ? handler->typeToValueSEL : (SEL)nil;
 }
 
 + (SEL)selectorForValueToStruct:(const char *)structTag
 {
     StructTagHandler* handler = handerForStructTag(structTag);
-    return handler ? handler->valueToTypeSEL : nil;
+    return handler ? handler->valueToTypeSEL : (SEL)nil;
 }
 
 - (void)dealloc

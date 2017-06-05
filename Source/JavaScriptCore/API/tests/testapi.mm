@@ -37,8 +37,8 @@
 extern "C" void JSSynchronousGarbageCollectForDebugging(JSContextRef);
 extern "C" void JSSynchronousEdenCollectForDebugging(JSContextRef);
 
-extern "C" bool _Block_has_signature(id);
-extern "C" const char * _Block_signature(id);
+//extern "C" bool _Block_has_signature(id);
+//extern "C" const char * _Block_signature(id);
 
 extern int failed;
 extern "C" void testObjectiveCAPI(void);
@@ -1470,7 +1470,7 @@ static void testObjectiveCAPIMain()
     }
 
     currentThisInsideBlockGetterTest();
-    runDateTests();
+    //runDateTests();
     runJSExportTests();
     runRegress141275();
     runRegress141809();
