@@ -37,6 +37,8 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #endif
 
+#import <ApplicationServices/ApplicationServices.h>
+
 @interface WebCoreBundleFinder : NSObject
 @end
 

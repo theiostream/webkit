@@ -42,6 +42,8 @@
 #import <wtf/Ref.h>
 #import <wtf/RetainPtr.h>
 
+#import <QuartzCore/QuartzCore.h>
+
 @interface NSWindow (WebWindowDetails)
 - (BOOL)_needsToResetDragMargins;
 - (void)_setNeedsToResetDragMargins:(BOOL)needs;

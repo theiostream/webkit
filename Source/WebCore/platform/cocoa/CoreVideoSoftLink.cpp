@@ -23,6 +23,8 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if 0
+
 #include "config.h"
 
 #include "SoftLinking.h"
@@ -68,4 +70,6 @@ SOFT_LINK_FUNCTION_FOR_SOURCE(WebCore, CoreVideo, CVOpenGLTextureCacheFlush, voi
 SOFT_LINK_FUNCTION_FOR_SOURCE(WebCore, CoreVideo, CVOpenGLTextureGetTarget, GLenum, (CVOpenGLTextureRef image), (image))
 SOFT_LINK_FUNCTION_FOR_SOURCE(WebCore, CoreVideo, CVOpenGLTextureGetName, GLuint, (CVOpenGLTextureRef image), (image))
 SOFT_LINK_CONSTANT_FOR_SOURCE(WebCore, CoreVideo, kCVPixelBufferIOSurfaceOpenGLFBOCompatibilityKey, CFStringRef)
+#endif
+
 #endif

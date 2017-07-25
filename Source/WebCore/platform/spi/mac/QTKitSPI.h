@@ -25,9 +25,11 @@
 
 #pragma once
 
-#if USE(APPLE_INTERNAL_SDK) || __MAC_OS_X_VERSION_MAX_ALLOWED < 101200
-#import <QTKit/QTKit.h>
-#else
+//#if USE(APPLE_INTERNAL_SDK) || __MAC_OS_X_VERSION_MAX_ALLOWED < 101200
+//#import <QTKit/QTKit.h>
+//#else
+
+#import <QuartzCore/QuartzCore.h>
 
 enum {
     kQTTimeIsIndefinite = 1 << 0
@@ -104,6 +106,6 @@ typedef enum {
 
 - (id)attributeForKey:(NSString *)attributeKey;
 
-@end
+//@end
 
-#endif
+//#endif

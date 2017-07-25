@@ -583,7 +583,7 @@ void Settings::setQTKitEnabled(bool enabled)
         return;
 
     gQTKitEnabled = enabled;
-    HTMLMediaElement::resetMediaEngines();
+    //HTMLMediaElement::resetMediaEngines(); BAD BAD BAD
 }
 #endif
 

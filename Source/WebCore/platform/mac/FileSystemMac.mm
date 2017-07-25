@@ -26,6 +26,9 @@
 #import "config.h"
 #import "FileSystem.h"
 
+#include <dispatch/dispatch.h>
+#include <unistd.h>
+
 #if PLATFORM(MAC)
 
 #import "WebCoreNSURLExtras.h"
@@ -70,7 +73,7 @@ bool canExcludeFromBackup()
 bool excludeFromBackup(const String& path)
 {
     // It is critical to pass FALSE for excludeByPath because excluding by path requires root privileges.
-    CSBackupSetItemExcluded(pathAsURL(path).get(), TRUE, FALSE); 
+    //CSBackupSetItemExcluded(pathAsURL(path).get(), TRUE, FALSE);  GNUSTEP TOP KEK
     return true;
 }
 

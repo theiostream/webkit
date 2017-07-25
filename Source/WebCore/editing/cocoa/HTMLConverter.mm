@@ -1642,7 +1642,7 @@ static inline NSDate *_dateForString(NSString *string)
     return [[[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease] dateFromComponents:dateComponents.get()];
 }
 
-static NSInteger _colCompare(id block1, id block2, void *)
+static NSComparisonResult _colCompare(id block1, id block2, void *)
 {
     NSInteger col1 = [(NSTextTableBlock *)block1 startingColumn];
     NSInteger col2 = [(NSTextTableBlock *)block2 startingColumn];
@@ -1864,7 +1864,7 @@ BOOL HTMLConverter::_processElement(Element& element, NSInteger depth)
                 tableElement = &element;
         }
         while ([_textTables count] > [_textBlocks count])
-            _addTableCellForElement(nil);
+            _addTableCellForElement(NULL);
         _addTableForElement(tableElement);
     } else if (displayValue == "table-footer-group" && [_textTables count] > 0) {
         m_textTableFooters.add([_textTables lastObject], &element);
@@ -1876,7 +1876,7 @@ BOOL HTMLConverter::_processElement(Element& element, NSInteger depth)
         [_textTableRowBackgroundColors addObject:color];
     } else if (displayValue == "table-cell") {
         while ([_textTables count] < [_textBlocks count] + 1)
-            _addTableForElement(nil);
+            _addTableForElement(NULL);
         _addTableCellForElement(&element);
 #if ENABLE(ATTACHMENT_ELEMENT)
     } else if (is<HTMLAttachmentElement>(element)) {

@@ -75,7 +75,8 @@ void ResourceResponse::disableLazyInitialization()
 
 CertificateInfo ResourceResponse::platformCertificateInfo() const
 {
-#if USE(CFURLCONNECTION)
+    return CertificateInfo(NULL);
+/*#if USE(CFURLCONNECTION)
     ASSERT(m_cfResponse);
     CFURLResponseRef cfResponse = m_cfResponse.get();
 #else
@@ -111,7 +112,7 @@ CertificateInfo ResourceResponse::platformCertificateInfo() const
     return CertificateInfo(trust);
 #else
     return CertificateInfo(CertificateInfo::certificateChainFromSecTrust(trust));
-#endif
+#endif*/
 }
 
 #if USE(CFURLCONNECTION)

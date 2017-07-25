@@ -28,7 +28,7 @@
 
 namespace WebCore {
 
-#if !PLATFORM(COCOA)
+#if !PLATFORM(COCOA) || PLATFORM(GNUSTEP)
 std::unique_ptr<SleepDisabler> SleepDisabler::create(const char* reason, Type type)
 {
     return std::unique_ptr<SleepDisabler>(new SleepDisabler(reason, type));

@@ -1543,11 +1543,12 @@ void Document::unregisterForVisibilityStateChangedCallbacks(VisibilityChangeClie
 
 void Document::visibilityStateChanged()
 {
-    dispatchEvent(Event::create(eventNames().visibilitychangeEvent, false, false));
+  // GNUSTEP NO OP WTF  
+  /*dispatchEvent(Event::create(eventNames().visibilitychangeEvent, false, false));
     for (auto* client : m_visibilityStateCallbackClients)
         client->visibilityStateChanged();
 
-    notifyVisibilityChangedToMediaCapture();
+    notifyVisibilityChangedToMediaCapture();*/
 }
 
 auto Document::visibilityState() const -> VisibilityState

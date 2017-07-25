@@ -26,7 +26,7 @@
 #include "config.h"
 #include "DisplayRefreshMonitorMac.h"
 
-#if USE(REQUEST_ANIMATION_FRAME_DISPLAY_MONITOR)
+#if 0//USE(REQUEST_ANIMATION_FRAME_DISPLAY_MONITOR)
 
 #include <QuartzCore/QuartzCore.h>
 #include <wtf/CurrentTime.h>

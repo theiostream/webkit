@@ -26,7 +26,7 @@
 #import "config.h"
 #import "WebCoreNSErrorExtras.h"
 
-#import <AVFoundation/AVError.h>
+//#import <AVFoundation/AVError.h>
 
 namespace WebCore {
 
@@ -34,11 +34,11 @@ long mediaKeyErrorSystemCode(NSError *error)
 {
     NSInteger code = [error code];
 
-    if (code == AVErrorUnknown) {
+    /*if (code == AVErrorUnknown) {
         NSError* underlyingError = [error.userInfo valueForKey:NSUnderlyingErrorKey];
         if (underlyingError && [underlyingError isKindOfClass:[NSError class]])
             return [underlyingError code];
-    }
+    }*/
 
     return code;
 }

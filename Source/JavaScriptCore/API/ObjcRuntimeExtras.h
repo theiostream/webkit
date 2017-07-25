@@ -156,6 +156,7 @@ private:
 template<typename DelegateType>
 typename DelegateType::ResultType parseObjCType(const char*& position)
 {
+    printf("parseObjCType: %s\n", position);
     ASSERT(*position);
 
     switch (*position++) {

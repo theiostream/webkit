@@ -228,7 +228,8 @@ list(APPEND WebCore_SOURCES
     crypto/mac/CryptoKeyECMac.cpp
     crypto/mac/CryptoKeyMac.cpp
     crypto/mac/CryptoKeyRSAMac.cpp
-    crypto/mac/SerializedCryptoKeyWrapMac.mm
+    #    crypto/mac/SerializedCryptoKeyWrapMac.mm
+    crypto/gcrypt/SerializedCryptoKeyWrapGCrypt.cpp
 
     dom/DataTransferMac.mm
     dom/SlotAssignment.cpp
@@ -278,8 +279,10 @@ list(APPEND WebCore_SOURCES
 
     page/cocoa/MemoryReleaseCocoa.mm
     page/cocoa/PerformanceLoggingCocoa.mm
-    page/cocoa/ResourceUsageOverlayCocoa.mm
-    page/cocoa/ResourceUsageThreadCocoa.mm
+    #   page/cocoa/ResourceUsageOverlayCocoa.mm
+    #    page/cocoa/ResourceUsageThreadCocoa.mm
+    page/linux/ResourceUsageThreadLinux.cpp
+    page/linux/ResourceUsageOverlayLinux.cpp
     page/cocoa/SettingsCocoa.mm
     page/cocoa/UserAgent.mm
 
@@ -312,18 +315,18 @@ list(APPEND WebCore_SOURCES
 
     platform/audio/AudioSession.cpp
 
-    platform/audio/cocoa/MediaSessionManagerCocoa.cpp
+    #platform/audio/cocoa/MediaSessionManagerCocoa.cpp
 
-    platform/audio/mac/CAAudioStreamDescription.cpp
+    #platform/audio/mac/CAAudioStreamDescription.cpp
 
-    platform/audio/mac/AudioBusMac.mm
-    platform/audio/mac/AudioDestinationMac.cpp
-    platform/audio/mac/AudioFileReaderMac.cpp
-    platform/audio/mac/AudioHardwareListenerMac.cpp
-    platform/audio/mac/AudioSessionMac.cpp
-    platform/audio/mac/CARingBuffer.cpp
-    platform/audio/mac/FFTFrameMac.cpp
-    platform/audio/mac/MediaSessionManagerMac.mm
+    #platform/audio/mac/AudioBusMac.mm
+    #platform/audio/mac/AudioDestinationMac.cpp
+    #platform/audio/mac/AudioFileReaderMac.cpp
+    #platform/audio/mac/AudioHardwareListenerMac.cpp
+    #platform/audio/mac/AudioSessionMac.cpp
+    #platform/audio/mac/CARingBuffer.cpp
+    #platform/audio/mac/FFTFrameMac.cpp
+    #platform/audio/mac/MediaSessionManagerMac.mm
 
     platform/cf/CFURLExtras.cpp
     platform/cf/CoreMediaSoftLink.cpp
@@ -362,33 +365,33 @@ list(APPEND WebCore_SOURCES
     platform/graphics/DisplayRefreshMonitor.cpp
     platform/graphics/DisplayRefreshMonitorManager.cpp
 
-    platform/graphics/avfoundation/AVTrackPrivateAVFObjCImpl.mm
-    platform/graphics/avfoundation/AudioSourceProviderAVFObjC.mm
-    platform/graphics/avfoundation/CDMPrivateMediaSourceAVFObjC.mm
-    platform/graphics/avfoundation/InbandMetadataTextTrackPrivateAVF.cpp
-    platform/graphics/avfoundation/InbandTextTrackPrivateAVF.cpp
-    platform/graphics/avfoundation/MediaPlaybackTargetMac.mm
-    platform/graphics/avfoundation/MediaPlayerPrivateAVFoundation.cpp
-    platform/graphics/avfoundation/MediaSelectionGroupAVFObjC.mm
-    platform/graphics/avfoundation/MediaTimeAVFoundation.cpp
+    #    platform/graphics/avfoundation/AVTrackPrivateAVFObjCImpl.mm
+    #platform/graphics/avfoundation/AudioSourceProviderAVFObjC.mm
+    #platform/graphics/avfoundation/CDMPrivateMediaSourceAVFObjC.mm
+    #platform/graphics/avfoundation/InbandMetadataTextTrackPrivateAVF.cpp
+    #platform/graphics/avfoundation/InbandTextTrackPrivateAVF.cpp
+    #platform/graphics/avfoundation/MediaPlaybackTargetMac.mm
+    #platform/graphics/avfoundation/MediaPlayerPrivateAVFoundation.cpp
+    #platform/graphics/avfoundation/MediaSelectionGroupAVFObjC.mm
+    #platform/graphics/avfoundation/MediaTimeAVFoundation.cpp
 
-    platform/graphics/avfoundation/objc/AVFoundationMIMETypeCache.mm
-    platform/graphics/avfoundation/objc/AudioTrackPrivateAVFObjC.mm
-    platform/graphics/avfoundation/objc/AudioTrackPrivateMediaSourceAVFObjC.cpp
-    platform/graphics/avfoundation/objc/CDMSessionAVContentKeySession.mm
-    platform/graphics/avfoundation/objc/CDMSessionAVFoundationObjC.mm
-    platform/graphics/avfoundation/objc/CDMSessionAVStreamSession.mm
-    platform/graphics/avfoundation/objc/CDMSessionMediaSourceAVFObjC.mm
-    platform/graphics/avfoundation/objc/InbandTextTrackPrivateAVFObjC.mm
-    platform/graphics/avfoundation/objc/InbandTextTrackPrivateLegacyAVFObjC.mm
-    platform/graphics/avfoundation/objc/MediaPlayerPrivateAVFoundationObjC.mm
-    platform/graphics/avfoundation/objc/MediaPlayerPrivateMediaSourceAVFObjC.mm
-    platform/graphics/avfoundation/objc/MediaSampleAVFObjC.mm
-    platform/graphics/avfoundation/objc/MediaSourcePrivateAVFObjC.mm
-    platform/graphics/avfoundation/objc/SourceBufferPrivateAVFObjC.mm
-    platform/graphics/avfoundation/objc/VideoTrackPrivateAVFObjC.cpp
-    platform/graphics/avfoundation/objc/VideoTrackPrivateMediaSourceAVFObjC.mm
-    platform/graphics/avfoundation/objc/WebCoreAVFResourceLoader.mm
+    #platform/graphics/avfoundation/objc/AVFoundationMIMETypeCache.mm
+    #platform/graphics/avfoundation/objc/AudioTrackPrivateAVFObjC.mm
+    #platform/graphics/avfoundation/objc/AudioTrackPrivateMediaSourceAVFObjC.cpp
+    #platform/graphics/avfoundation/objc/CDMSessionAVContentKeySession.mm
+    #platform/graphics/avfoundation/objc/CDMSessionAVFoundationObjC.mm
+    #platform/graphics/avfoundation/objc/CDMSessionAVStreamSession.mm
+    #platform/graphics/avfoundation/objc/CDMSessionMediaSourceAVFObjC.mm
+    #platform/graphics/avfoundation/objc/InbandTextTrackPrivateAVFObjC.mm
+    #platform/graphics/avfoundation/objc/InbandTextTrackPrivateLegacyAVFObjC.mm
+    #platform/graphics/avfoundation/objc/MediaPlayerPrivateAVFoundationObjC.mm
+    #platform/graphics/avfoundation/objc/MediaPlayerPrivateMediaSourceAVFObjC.mm
+    #platform/graphics/avfoundation/objc/MediaSampleAVFObjC.mm
+    #platform/graphics/avfoundation/objc/MediaSourcePrivateAVFObjC.mm
+    #platform/graphics/avfoundation/objc/SourceBufferPrivateAVFObjC.mm
+    #platform/graphics/avfoundation/objc/VideoTrackPrivateAVFObjC.cpp
+    #platform/graphics/avfoundation/objc/VideoTrackPrivateMediaSourceAVFObjC.mm
+    #platform/graphics/avfoundation/objc/WebCoreAVFResourceLoader.mm
 
     platform/graphics/ca/GraphicsLayerCA.cpp
     platform/graphics/ca/LayerFlushScheduler.cpp
@@ -462,9 +465,9 @@ list(APPEND WebCore_SOURCES
     platform/graphics/cocoa/WebCoreCALayerExtras.mm
     platform/graphics/cocoa/WebGPULayer.mm
 
-    platform/graphics/cv/PixelBufferConformerCV.cpp
-    platform/graphics/cv/TextureCacheCV.mm
-    platform/graphics/cv/VideoTextureCopierCV.cpp
+    #    platform/graphics/cv/PixelBufferConformerCV.cpp
+    #platform/graphics/cv/TextureCacheCV.mm
+    #platform/graphics/cv/VideoTextureCopierCV.cpp
 
     platform/graphics/gpu/Texture.cpp
     platform/graphics/gpu/TilingData.cpp
@@ -487,7 +490,7 @@ list(APPEND WebCore_SOURCES
     platform/graphics/mac/IntSizeMac.mm
     platform/graphics/mac/MediaPlayerPrivateQTKit.mm
     platform/graphics/mac/MediaTimeQTKit.mm
-    platform/graphics/mac/PDFDocumentImageMac.mm
+    #    platform/graphics/mac/PDFDocumentImageMac.mm
     platform/graphics/mac/SimpleFontDataCoreText.cpp
     platform/graphics/mac/WebGLLayer.mm
     platform/graphics/mac/WebLayer.mm
@@ -578,7 +581,7 @@ list(APPEND WebCore_SOURCES
     platform/network/cocoa/ProtectionSpaceCocoa.mm
     platform/network/cocoa/ResourceRequestCocoa.mm
     platform/network/cocoa/ResourceResponseCocoa.mm
-    platform/network/cocoa/WebCoreNSURLSession.mm
+    #    platform/network/cocoa/WebCoreNSURLSession.mm
 
     platform/network/mac/AuthenticationMac.mm
     platform/network/mac/BlobDataFileReferenceMac.mm

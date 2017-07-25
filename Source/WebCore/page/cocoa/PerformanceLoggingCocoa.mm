@@ -23,6 +23,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if 0
+
 #import "config.h"
 #import "PerformanceLogging.h"
 
@@ -56,3 +58,5 @@ void PerformanceLogging::getPlatformMemoryUsageStatistics(HashMap<const char*, s
 }
 
 }
+
+#endif

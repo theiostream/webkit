@@ -26,11 +26,16 @@
 #import "config.h"
 #import "WebGLBlacklist.h"
 
-#if PLATFORM(MAC)
+#if PLATFORM(MAC) && !PLATFORM(GNUSTEP)
 
 #import "BlacklistUpdater.h"
 #import "CFUtilitiesSPI.h"
 #import <OpenGL/OpenGL.h>
+
+#if OS(LINUX)
+#undef major
+#undef minor
+#endif
 
 namespace WebCore {
 

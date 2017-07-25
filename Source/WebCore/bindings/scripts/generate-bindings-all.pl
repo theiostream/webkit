@@ -49,6 +49,8 @@ my $numOfJobs = 1;
 my $idlAttributesFile;
 my $showProgress;
 
+print "HELLO WORLD ALL";
+
 GetOptions('include=s@' => \@idlDirectories,
            'outputDir=s' => \$outputDirectory,
            'idlFilesList=s' => \$idlFilesList,

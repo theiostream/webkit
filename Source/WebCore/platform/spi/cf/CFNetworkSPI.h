@@ -30,6 +30,7 @@
 
 #include "CFNetworkConnectionCacheSPI.h"
 #include <CFNetwork/CFNetwork.h>
+#include <dispatch/dispatch.h>
 
 #if PLATFORM(WIN) || USE(APPLE_INTERNAL_SDK)
 
@@ -100,9 +101,9 @@ typedef void (^CFCachedURLResponseCallBackBlock)(CFCachedURLResponseRef);
 - (NSDate *)_lastModifiedDate;
 @end
 
-@interface NSURLSessionTask (TimingData)
+/*@interface NSURLSessionTask (TimingData)
 - (NSDictionary *)_timingData;
-@end
+@end*/
 
 @interface NSHTTPCookie ()
 - (CFHTTPCookieRef)_CFHTTPCookie;
@@ -121,7 +122,7 @@ typedef void (^CFCachedURLResponseCallBackBlock)(CFCachedURLResponseRef);
 @end
 #endif
 
-#if (PLATFORM(MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 101300) || (PLATFORM(IOS) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 110000)
+/*#if (PLATFORM(MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 101300) || (PLATFORM(IOS) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 110000)
 @interface NSURLSessionTaskTransactionMetrics ()
 @property (copy, readonly) NSString* _remoteAddressAndPort;
 @property (copy, readonly) NSUUID* _connectionIdentifier;
@@ -130,7 +131,7 @@ typedef void (^CFCachedURLResponseCallBackBlock)(CFCachedURLResponseRef);
 @property (assign, readonly) int64_t _responseBodyBytesReceived;
 @property (assign, readonly) int64_t _responseBodyBytesDecoded;
 @end
-#endif
+#endif*/
 
 #if (PLATFORM(MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 101200) || (PLATFORM(IOS) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 100000)
 @interface NSHTTPCookie ()
@@ -141,10 +142,10 @@ typedef void (^CFCachedURLResponseCallBackBlock)(CFCachedURLResponseRef);
 - (void)_getCookiesForURL:(NSURL *)url mainDocumentURL:(NSURL *)mainDocumentURL partition:(NSString *)partition completionHandler:(void (^)(NSArray *))completionHandler;
 @end
 
-@interface NSURLSessionTask ()
+/*@interface NSURLSessionTask ()
 @property (readwrite, copy) NSString *_pathToDownloadTaskFile;
 @property (copy) NSString *_storagePartitionIdentifier;
-@end
+@end*/
 #endif
 
 #endif // defined(__OBJC__)

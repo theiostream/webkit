@@ -36,8 +36,13 @@
 
 typedef unsigned short CGGlyph;
 
-typedef const struct __CTRun * CTRunRef;
+#if !PLATFORM(GNUSTEP)
 typedef const struct __CTLine * CTLineRef;
+typedef const struct __CTRun * CTRunRef;
+#else
+typedef struct CTLine *CTLineRef;
+typedef struct CTRun *CTRunRef;
+#endif
 
 namespace WebCore {
 

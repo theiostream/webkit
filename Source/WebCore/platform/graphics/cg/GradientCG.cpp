@@ -78,7 +78,7 @@ void Gradient::paint(GraphicsContext* context)
 
 void Gradient::paint(CGContextRef context)
 {
-    CGGradientDrawingOptions extendOptions = kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation;
+    CGGradientDrawingOptions extendOptions = (CGGradientDrawingOptions)(kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation);
     if (!m_radial) {
         CGContextDrawLinearGradient(context, platformGradient(), m_p0, m_p1, extendOptions);
         return;

@@ -26,9 +26,9 @@
 #ifndef AppKitCompatibilityDeclarations_h
 #define AppKitCompatibilityDeclarations_h
 
-#import <Availability.h>
+//#import <Availability.h>
 
-#if __MAC_OS_X_VERSION_MAX_ALLOWED < 101200
+//#if __MAC_OS_X_VERSION_MAX_ALLOWED < 101200
 
 #import <AppKit/AppKit.h>
 
@@ -44,8 +44,8 @@ static const NSButtonType NSButtonTypeRadio = NSRadioButton;
 static const NSButtonType NSButtonTypeMomentaryChange = NSMomentaryChangeButton;
 static const NSButtonType NSButtonTypeOnOff = NSOnOffButton;
 static const NSButtonType NSButtonTypeMomentaryPushIn = NSMomentaryPushInButton;
-static const NSButtonType NSButtonTypeAccelerator = NSAcceleratorButton;
-static const NSButtonType NSButtonTypeMultiLevelAccelerator = NSMultiLevelAcceleratorButton;
+//static const NSButtonType NSButtonTypeAccelerator = NSAcceleratorButton; GNUSTEP
+//static const NSButtonType NSButtonTypeMultiLevelAccelerator = NSMultiLevelAcceleratorButton; GNUSTEP
 
 static const NSCompositingOperation NSCompositingOperationCopy = NSCompositeCopy;
 static const NSCompositingOperation NSCompositingOperationDestinationIn = NSCompositeDestinationIn;
@@ -62,6 +62,7 @@ static const NSControlSize NSControlSizeMini = NSMiniControlSize;
 static const NSSliderType NSSliderTypeLinear = NSLinearSlider;
 static const NSSliderType NSSliderTypeCircular = NSCircularSlider;
 
+typedef NSUInteger NSEventMask;
 static const NSEventMask NSEventMaskAny = NSAnyEventMask;
 static const NSEventMask NSEventMaskFlagsChanged = NSFlagsChangedMask;
 static const NSEventMask NSEventMaskKeyDown = NSKeyDownMask;
@@ -77,6 +78,7 @@ static const NSEventMask NSEventMaskRightMouseUp = NSRightMouseUpMask;
 static const NSEventMask NSEventMaskMouseMoved = NSMouseMovedMask;
 static const NSEventMask NSEventMaskScrollWheel = NSScrollWheelMask;
 
+typedef NSUInteger NSEventModifierFlags;
 static const NSEventModifierFlags NSEventModifierFlagOption = NSAlternateKeyMask;
 static const NSEventModifierFlags NSEventModifierFlagControl = NSControlKeyMask;
 static const NSEventModifierFlags NSEventModifierFlagCapsLock = NSAlphaShiftKeyMask;
@@ -107,7 +109,7 @@ static const NSEventType NSEventTypeRightMouseUp = NSRightMouseUp;
 static const NSEventType NSEventTypeScrollWheel = NSScrollWheel;
 static const NSEventType NSEventTypeSystemDefined = NSSystemDefined;
 
-#if __MAC_OS_X_VERSION_MAX_ALLOWED < 101100
+//#if __MAC_OS_X_VERSION_MAX_ALLOWED < 101100
 static const NSTextAlignment NSTextAlignmentRight = NSRightTextAlignment;
 static const NSTextAlignment NSTextAlignmentCenter = NSCenterTextAlignment;
 static const NSTextAlignment NSTextAlignmentLeft = NSLeftTextAlignment;
@@ -115,15 +117,15 @@ static const NSTextAlignment NSTextAlignmentNatural = NSNaturalTextAlignment;
 static const NSTextAlignment NSTextAlignmentJustified = NSJustifiedTextAlignment;
 
 typedef NSInteger NSWritingDirectionFormatType;
-static const NSWritingDirectionFormatType = NSTextWritingDirectionOverride;
-static const NSWritingDirectionEmbedding = NSTextWritingDirectionEmbedding;
-#endif
+static const NSWritingDirectionFormatType NSWritingDirectionOverride = NSTextWritingDirectionOverride;
+static const NSWritingDirectionFormatType NSWritingDirectionEmbedding = NSTextWritingDirectionEmbedding;
+//#endif
 
 typedef NSUInteger NSWindowStyleMask;
 static const NSWindowStyleMask NSWindowStyleMaskBorderless = NSBorderlessWindowMask;
 static const NSWindowStyleMask NSWindowStyleMaskClosable = NSClosableWindowMask;
 static const NSWindowStyleMask NSWindowStyleMaskFullScreen = NSFullScreenWindowMask;
-static const NSWindowStyleMask NSWindowStyleMaskFullSizeContentView = NSFullSizeContentViewWindowMask;
+//static const NSWindowStyleMask NSWindowStyleMaskFullSizeContentView = NSFullSizeContentViewWindowMask; GNUSTEP
 static const NSWindowStyleMask NSWindowStyleMaskHUDWindow = NSHUDWindowMask;
 static const NSWindowStyleMask NSWindowStyleMaskMiniaturizable = NSMiniaturizableWindowMask;
 static const NSWindowStyleMask NSWindowStyleMaskNonactivatingPanel = NSNonactivatingPanelMask;
@@ -132,6 +134,6 @@ static const NSWindowStyleMask NSWindowStyleMaskTexturedBackground = NSTexturedB
 static const NSWindowStyleMask NSWindowStyleMaskTitled = NSTitledWindowMask;
 static const NSWindowStyleMask NSWindowStyleMaskUtilityWindow = NSUtilityWindowMask;
 
-#endif
+//#endif
 
 #endif // AppKitCompatibilityDeclarations_h

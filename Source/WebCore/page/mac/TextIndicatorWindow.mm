@@ -205,7 +205,7 @@ static bool indicatorWantsManualAnimation(const TextIndicator& indicator)
         [dropShadowLayer setShadowColor:dropShadowColor.get()];
         [dropShadowLayer setShadowRadius:dropShadowBlurRadius];
         [dropShadowLayer setShadowOffset:CGSizeMake(dropShadowOffsetX, dropShadowOffsetY)];
-        [dropShadowLayer setShadowPath:translatedPath.platformPath()];
+        [dropShadowLayer setShadowPath:(CGPathRef)translatedPath.platformPath()];
         [dropShadowLayer setShadowOpacity:1];
         [dropShadowLayer setFrame:yellowHighlightRect];
         [bounceLayer addSublayer:dropShadowLayer.get()];
@@ -216,7 +216,7 @@ static bool indicatorWantsManualAnimation(const TextIndicator& indicator)
         [rimShadowLayer setFrame:yellowHighlightRect];
         [rimShadowLayer setShadowColor:rimShadowColor.get()];
         [rimShadowLayer setShadowRadius:rimShadowBlurRadius];
-        [rimShadowLayer setShadowPath:translatedPath.platformPath()];
+        [rimShadowLayer setShadowPath:(CGPathRef)translatedPath.platformPath()];
         [rimShadowLayer setShadowOffset:CGSizeZero];
         [rimShadowLayer setShadowOpacity:1];
         [rimShadowLayer setFrame:yellowHighlightRect];
@@ -231,7 +231,7 @@ static bool indicatorWantsManualAnimation(const TextIndicator& indicator)
         [textLayer setContents:(id)contentsImage.get()];
 
         RetainPtr<CAShapeLayer> maskLayer = adoptNS([[CAShapeLayer alloc] init]);
-        [maskLayer setPath:translatedPath.platformPath()];
+        [maskLayer setPath:(CGPathRef)translatedPath.platformPath()];
         [textLayer setMask:maskLayer.get()];
 
         FloatRect imageRect = pathBoundingRect;

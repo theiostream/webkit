@@ -25,6 +25,7 @@
 
 #import "config.h"
 #import "NetworkLoadMetrics.h"
+#import <dispatch/dispatch.h>
 
 #import <WebCore/NSURLConnectionSPI.h>
 

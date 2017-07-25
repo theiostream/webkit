@@ -55,7 +55,7 @@ void PlatformCAFilters::setFiltersOnLayer(PlatformLayer* layer, const FilterOper
         [layer setFilters:nil];
         // FIXME: this adds shadow properties to the layer even when it had none.
         [layer setShadowOffset:CGSizeZero];
-        [layer setShadowColor:nil];
+        [layer setShadowColor:NULL];
         [layer setShadowRadius:0];
         [layer setShadowOpacity:0];
         END_BLOCK_OBJC_EXCEPTIONS

@@ -16,6 +16,7 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
 #import "config.h"
 
 #if !PLATFORM(IOS)
@@ -78,6 +79,7 @@
 #import <wtf/StdLibExtras.h>
 #import <wtf/text/StringBuilder.h>
 #import <Carbon/Carbon.h>
+#import <CoreText/CoreText.h>
 #import <Cocoa/Cocoa.h>
 #import <math.h>
 
@@ -445,7 +447,7 @@ static RGBA32 convertNSColorToColor(NSColor *color)
     // not just a solid color. To work around this we simply draw a 1x1 image of
     // the color and use that pixel's color. It might be better to use an average of
     // the colors in the pattern instead.
-    NSBitmapImageRep *offscreenRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:nil
+    NSBitmapImageRep *offscreenRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
                                                                              pixelsWide:1
                                                                              pixelsHigh:1
                                                                           bitsPerSample:8
@@ -472,7 +474,7 @@ static RGBA32 convertNSColorToColor(NSColor *color)
 
 static RGBA32 menuBackgroundColor()
 {
-    NSBitmapImageRep *offscreenRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:nil
+    NSBitmapImageRep *offscreenRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
                                                                              pixelsWide:1
                                                                              pixelsHigh:1
                                                                           bitsPerSample:8

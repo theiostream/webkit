@@ -66,16 +66,16 @@ private:
     void removePACRunLoopSource();
     RetainPtr<CFRunLoopSourceRef> m_pacRunLoopSource;
     static void pacExecutionCallback(void* client, CFArrayRef proxyList, CFErrorRef);
-    static CFStringRef copyPACExecutionDescription(void*);
+    static CFStringRef copyPACExecutionDescription(const void*);
 
     bool shouldUseSSL() const { return m_url.protocolIs("wss"); }
     unsigned short port() const;
 
     void addCONNECTCredentials(CFHTTPMessageRef response);
 
-    static void* retainSocketStreamHandle(void*);
-    static void releaseSocketStreamHandle(void*);
-    static CFStringRef copyCFStreamDescription(void*);
+    static const void* retainSocketStreamHandle(const void*);
+    static void releaseSocketStreamHandle(const void*);
+    static CFStringRef copyCFStreamDescription(const void*);
     static void readStreamCallback(CFReadStreamRef, CFStreamEventType, void*);
     static void writeStreamCallback(CFWriteStreamRef, CFStreamEventType, void*);
     void readStreamCallback(CFStreamEventType);

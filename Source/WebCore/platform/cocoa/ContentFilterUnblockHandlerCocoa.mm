@@ -23,6 +23,8 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <dispatch/dispatch.h>
+
 #import "config.h"
 #import "ContentFilterUnblockHandler.h"
 

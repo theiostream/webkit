@@ -732,7 +732,7 @@ Vector<String> FontCache::systemFontFamilies()
 
     HashSet<String> visited;
     for (CFIndex i = 0; i < numMatches; ++i) {
-        auto fontDescriptor = static_cast<CTFontDescriptorRef>(CFArrayGetValueAtIndex(matchedDescriptors.get(), i));
+        auto fontDescriptor = (CTFontDescriptorRef)(CFArrayGetValueAtIndex(matchedDescriptors.get(), i));
         if (auto familyName = adoptCF(static_cast<CFStringRef>(CTFontDescriptorCopyAttribute(fontDescriptor, kCTFontFamilyNameAttribute))))
             visited.add(familyName.get());
     }
@@ -885,7 +885,7 @@ public:
                 Vector<InstalledFont> result;
                 result.reserveInitialCapacity(count);
                 for (CFIndex i = 0; i < count; ++i) {
-                    InstalledFont installedFont(static_cast<CTFontDescriptorRef>(CFArrayGetValueAtIndex(matches.get(), i)));
+                    InstalledFont installedFont((CTFontDescriptorRef)(CFArrayGetValueAtIndex(matches.get(), i)));
                     result.uncheckedAppend(WTFMove(installedFont));
                 }
                 return InstalledFontFamily(WTFMove(result));

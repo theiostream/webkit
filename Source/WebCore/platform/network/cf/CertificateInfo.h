@@ -29,7 +29,7 @@
 #include "PlatformExportMacros.h"
 #include <wtf/RetainPtr.h>
 
-#if PLATFORM(COCOA)
+#if PLATFORM(COCOA) && !PLATFORM(GNUSTEP)
 #include <Security/SecTrust.h>
 #endif
 
@@ -68,7 +68,7 @@ public:
 
     bool isEmpty() const { return type() == Type::None; }
 
-#if PLATFORM(COCOA)
+#if PLATFORM(COCOA) && !PLATFORM(GNUSTEP)
     static RetainPtr<CFArrayRef> certificateChainFromSecTrust(SecTrustRef);
 #endif
 

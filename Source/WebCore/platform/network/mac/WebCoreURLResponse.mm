@@ -28,12 +28,14 @@
 
 #import "config.h"
 #import "WebCoreURLResponse.h"
+#import <ApplicationServices/ApplicationServices.h>
 
 #import "MIMETypeRegistry.h"
 #import "UTIUtilities.h"
 #import "WebCoreSystemInterface.h"
 #import <wtf/Assertions.h>
 #import <wtf/RetainPtr.h>
+
 
 namespace WebCore {
 

@@ -31,6 +31,17 @@
 #import <wtf/StdLibExtras.h>
 #include <wtf/text/StringHash.h>
 
+#if OS(LINUX)
+#include <unistd.h>
+#include <sys/syscall.h>
+#include <sys/types.h>
+
+static inline int pthread_main_np()
+{
+    return syscall(SYS_gettid) == getpid() ? 1 : 0;
+}
+#endif
+
 namespace WebCore {
 
 static bool didReadThreadViolationBehaviorFromUserDefaults = false;

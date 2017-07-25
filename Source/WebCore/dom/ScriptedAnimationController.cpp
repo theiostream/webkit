@@ -249,9 +249,9 @@ void ScriptedAnimationController::windowScreenDidChange(PlatformDisplayID displa
 #endif
 }
 
+#if USE(REQUEST_ANIMATION_FRAME_TIMER) && USE(REQUEST_ANIMATION_FRAME_DISPLAY_MONITOR)
 Seconds ScriptedAnimationController::interval() const
 {
-#if USE(REQUEST_ANIMATION_FRAME_TIMER) && USE(REQUEST_ANIMATION_FRAME_DISPLAY_MONITOR)
     if (m_throttlingReasons.contains(ThrottlingReason::VisuallyIdle) || m_throttlingReasons.contains(ThrottlingReason::OutsideViewport))
         return aggressiveThrottlingAnimationInterval;
 
@@ -262,9 +262,9 @@ Seconds ScriptedAnimationController::interval() const
         return halfSpeedThrottlingAnimationInterval;
 
     ASSERT(m_throttlingReasons.isEmpty());
-#endif
     return fullSpeedAnimationInterval;
 }
+#endif
 
 Page* ScriptedAnimationController::page() const
 {

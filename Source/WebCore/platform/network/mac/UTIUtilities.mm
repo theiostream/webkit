@@ -30,6 +30,8 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #endif
 
+#import <ApplicationServices/ApplicationServices.h>
+
 namespace WebCore {
 
 RetainPtr<CFStringRef> mimeTypeFromUTITree(CFStringRef uti)
@@ -42,10 +44,10 @@ RetainPtr<CFStringRef> mimeTypeFromUTITree(CFStringRef uti)
     // If not, walk the ancestory of this UTI via its "ConformsTo" tags and return the first MIME type we find.
     RetainPtr<CFDictionaryRef> decl = adoptCF(UTTypeCopyDeclaration(uti));
     if (!decl)
-        return nil;
+        return NULL;
     CFTypeRef value = CFDictionaryGetValue(decl.get(), kUTTypeConformsToKey);
     if (!value)
-        return nil;
+        return NULL;
     CFTypeID typeID = CFGetTypeID(value);
 
     if (typeID == CFStringGetTypeID())
@@ -64,7 +66,7 @@ RetainPtr<CFStringRef> mimeTypeFromUTITree(CFStringRef uti)
         }
     }
 
-    return nil;
+    return NULL;
 }
 
 RetainPtr<CFStringRef> UTIFromMIMEType(CFStringRef mime)

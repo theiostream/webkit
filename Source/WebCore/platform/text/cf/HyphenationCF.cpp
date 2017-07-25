@@ -54,14 +54,16 @@ public:
         // CF hyphenation functions use locale (regional formats) language, which doesn't necessarily match primary UI language,
         // so we can't use default locale here. See <rdar://problem/14897664>.
         RetainPtr<CFLocaleRef> locale = adoptCF(CFLocaleCreate(kCFAllocatorDefault, WebCore::defaultLanguage().createCFString().get()));
-        return CFStringIsHyphenationAvailableForLocale(locale.get()) ? locale : nullptr;
+        //return CFStringIsHyphenationAvailableForLocale(locale.get()) ? locale : nullptr;
+	return nullptr;
     }
 
     static RetainPtr<CFLocaleRef> createValueForKey(const AtomicString& localeIdentifier)
     {
         RetainPtr<CFLocaleRef> locale = adoptCF(CFLocaleCreate(kCFAllocatorDefault, localeIdentifier.string().createCFString().get()));
 
-        return CFStringIsHyphenationAvailableForLocale(locale.get()) ? locale : nullptr;
+        //return CFStringIsHyphenationAvailableForLocale(locale.get()) ? locale : nullptr;
+	return nullptr;
     }
 };
 }

@@ -186,7 +186,7 @@ void logMemoryStatisticsAtTimeOfDeath()
 #endif
 }
 
-#if !PLATFORM(COCOA)
+#if !PLATFORM(COCOA) || PLATFORM(GNUSTEP)
 void platformReleaseMemory(Critical) { }
 void jettisonExpensiveObjectsOnTopLevelNavigation() { }
 void registerMemoryReleaseNotifyCallbacks() { }

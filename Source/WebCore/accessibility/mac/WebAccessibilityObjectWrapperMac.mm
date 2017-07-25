@@ -29,7 +29,14 @@
 #import "config.h"
 #import "WebAccessibilityObjectWrapperMac.h"
 
+#if OS(LINUX)
+#include <bsd/string.h>
+#endif
+
 #if HAVE(ACCESSIBILITY)
+
+#import <ApplicationServices/ApplicationServices.h>
+#import <dispatch/dispatch.h>
 
 #import "AXObjectCache.h"
 #import "AccessibilityARIAGridRow.h"
@@ -781,7 +788,7 @@ static void AXAttributeStringSetColor(NSMutableAttributedString* attrString, NSS
         return;
     
     if (color) {
-        CGColorRef existingColor = (CGColorRef) [attrString attribute:attribute atIndex:range.location effectiveRange:nil];
+        CGColorRef existingColor = (CGColorRef) [attrString attribute:attribute atIndex:range.location effectiveRange:NULL];
         CGColorRef cgColor = CreateCGColorIfDifferent(color, existingColor);
         if (cgColor) {
             [attrString addAttribute:attribute value:(id)cgColor range:range];
@@ -3115,8 +3122,10 @@ static NSString* roleValueToNSString(AccessibilityRole value)
         return [self associatedPluginParent];
     
     // this is used only by DumpRenderTree for testing
-    if ([attributeName isEqualToString:@"AXClickPoint"])
-        return [NSValue valueWithPoint:m_object->clickPoint()];
+    if ([attributeName isEqualToString:@"AXClickPoint"]) {
+        CGPoint point = m_object->clickPoint();
+        return [NSValue valueWithPoint:NSMakePoint(point.x, point.y)];
+    }
     
     // This is used by DRT to verify CSS3 speech works.
     if ([attributeName isEqualToString:@"AXDRTSpeechAttribute"]) {

@@ -28,6 +28,8 @@
 #include "config.h"
 #include "ImageBuffer.h"
 
+#include <ApplicationServices/ApplicationServices.h>
+
 #if USE(CG)
 
 #include "BitmapImage.h"

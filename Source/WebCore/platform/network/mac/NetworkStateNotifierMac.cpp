@@ -23,6 +23,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
+#if 0
+
 #include "config.h"
 #include "NetworkStateNotifier.h"
 
@@ -130,3 +132,5 @@ NetworkStateNotifier::NetworkStateNotifier()
 }
     
 }
+
+#endif

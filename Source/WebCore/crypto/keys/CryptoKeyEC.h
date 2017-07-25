@@ -31,7 +31,7 @@
 
 #if ENABLE(SUBTLE_CRYPTO)
 
-#if OS(DARWIN) && !PLATFORM(GTK)
+#if PLATFORM(COCOA) && !PLATFORM(GTK)
 typedef struct _CCECCryptor *CCECCryptorRef;
 typedef CCECCryptorRef PlatformECKey;
 #endif

@@ -35,22 +35,37 @@ typedef struct CGPoint CGPoint;
 typedef struct CGSize CGSize;
 typedef struct CGRect CGRect;
 typedef struct CGAffineTransform CGAffineTransform;
+#ifndef OPAL_CGContext_h
 typedef struct CGContext *CGContextRef;
+#endif
+#ifndef OPAL_CGImage_h
 typedef struct CGImage *CGImageRef;
+#endif
+#ifndef OPAL_CGColor_h
 typedef struct CGColor *CGColorRef;
+#endif
 typedef struct CGFont *CGFontRef;
 typedef struct CGColorSpace *CGColorSpaceRef;
 typedef struct CGPattern *CGPatternRef;
+#ifndef OPAL_CGPath_h
 typedef struct CGPath *CGMutablePathRef;
+#endif
 typedef unsigned short CGGlyph;
 typedef struct __CFRunLoop * CFRunLoopRef;
 typedef struct __CFHTTPMessage *CFHTTPMessageRef;
 typedef struct _CFURLResponse *CFURLResponseRef;
 typedef const struct _CFURLRequest *CFURLRequestRef;
+#if !PLATFORM(GNUSTEP)
 typedef const struct __CTFont * CTFontRef;
 typedef const struct __CTLine * CTLineRef;
 typedef const struct __CTRun * CTRunRef;
 typedef const struct __CTTypesetter * CTTypesetterRef;
+#else
+typedef struct OPFont *CTFontRef;
+typedef struct CTLine *CTLineRef;
+typedef struct CTRun *CTRunRef;
+typedef struct CTTypesetter *CTTypesetterRef;
+#endif
 typedef const struct __AXUIElement *AXUIElementRef;
 #if !PLATFORM(IOS)
 typedef struct _NSRange NSRange;

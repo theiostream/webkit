@@ -355,6 +355,7 @@ sub generateInternalSettingsIdlFile($)
 {
     my $parsedItemsRef = shift;
 
+    print "WHAT THE FUCK 123123123\n";
     my $filename = "$outputDir/InternalSettingsGenerated.idl";
     open my $file, ">$filename" or die "Failed to open file: $!";
     print $file $InCompiler->license();

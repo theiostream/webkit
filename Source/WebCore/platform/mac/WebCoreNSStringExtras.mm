@@ -93,10 +93,11 @@ NSString *canonicalLocaleName(NSString *language)
     LangCode languageCode;
     RegionCode regionCode;
 
-    Boolean success = CFLocaleGetLanguageRegionEncodingForLocaleIdentifier((CFStringRef)language, &languageCode, &regionCode, nullptr, nullptr);
+    /*Boolean success = CFLocaleGetLanguageRegionEncodingForLocaleIdentifier((CFStringRef)language, &languageCode, &regionCode, nullptr, nullptr);
     if (!success)
         return @"en_US";
 
     RetainPtr<CFStringRef> code = adoptCF(CFLocaleCreateCanonicalLocaleIdentifierFromScriptManagerCodes(0, languageCode, regionCode));
-    return (NSString *)code.autorelease();
+    return (NSString *)code.autorelease();*/
+    return @"en_US";
 }

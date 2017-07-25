@@ -23,6 +23,8 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if 0
+
 #import "config.h"
 #import "CertificateInfo.h"
 
@@ -132,4 +134,7 @@ void CertificateInfo::dump() const
 }
 #endif
 
+
 } // namespace WebCore
+
+#endif

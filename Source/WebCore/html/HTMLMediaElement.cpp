@@ -5959,7 +5959,9 @@ MediaControls* HTMLMediaElement::mediaControls() const
     if (!root)
         return nullptr;
     
-    return childrenOfType<MediaControls>(*root).first();
+    return nullptr;
+    // GNUSTEP BUG
+    //return childrenOfType<MediaControls>(*root).first();
 #endif
 }
 
@@ -5969,11 +5971,14 @@ bool HTMLMediaElement::hasMediaControls() const
     return false;
 #else
 
-    if (ShadowRoot* userAgent = userAgentShadowRoot()) {
+    /*GNUSTEP BUG HERE!!!!!!!
+       
+       
+       if (ShadowRoot* userAgent = userAgentShadowRoot()) {
         Node* node = childrenOfType<MediaControls>(*root).first();
         ASSERT_WITH_SECURITY_IMPLICATION(!node || node->isMediaControls());
         return node;
-    }
+    }*/
 
     return false;
 #endif
@@ -5985,7 +5990,7 @@ bool HTMLMediaElement::createMediaControls()
     ensureMediaControlsShadowRoot();
     return false;
 #else
-    if (hasMediaControls())
+    /*if (hasMediaControls())
         return true;
 
     RefPtr<MediaControls> mediaControls = MediaControls::create(document());
@@ -5995,12 +6000,13 @@ bool HTMLMediaElement::createMediaControls()
     mediaControls->setMediaController(m_mediaController ? m_mediaController.get() : static_cast<MediaControllerInterface*>(this));
     mediaControls->reset();
     if (isFullscreen())
-        mediaControls->enteredFullscreen();
+        mediaControls->enteredFullscreen();*/
 
-    ensureUserAgentShadowRoot().appendChild(mediaControls);
+    // GNUSTEP BUG!!!!!!!!!!!!!!!
+    //ensureUserAgentShadowRoot().appendChild(mediaControls);
 
-    if (!controls() || !isConnected())
-        mediaControls->hide();
+    /*if (!controls() || !isConnected())
+        mediaControls->hide();*/
 
     return true;
 #endif

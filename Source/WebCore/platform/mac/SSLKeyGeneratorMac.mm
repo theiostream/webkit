@@ -23,6 +23,8 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if 0
+
 #import "config.h"
 #import "SSLKeyGenerator.h"
 
@@ -244,3 +246,5 @@ String signedPublicKeyAndChallengeString(unsigned keySizeIndex, const String& ch
 }
 
 }
+
+#endif

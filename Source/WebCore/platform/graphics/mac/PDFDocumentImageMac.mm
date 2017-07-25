@@ -31,7 +31,7 @@
 #import "LocalCurrentGraphicsContext.h"
 #import "SharedBuffer.h"
 #import "SoftLinking.h"
-#import <Quartz/Quartz.h>
+//#import <Quartz/Quartz.h>
 #import <objc/objc-class.h>
 #import <wtf/RetainPtr.h>
 

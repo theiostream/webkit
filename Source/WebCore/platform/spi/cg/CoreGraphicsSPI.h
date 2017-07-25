@@ -33,13 +33,16 @@
 #include "IOSurfaceSPI.h"
 #endif
 
-#if PLATFORM(MAC)
+#if PLATFORM(MAC) && !PLATFORM(GNUSTEP)
 #include <ColorSync/ColorSync.h>
+#elif PLATFORM(GNUSTEP)
+typedef const struct ColorSyncProfile* ColorSyncProfileRef;
+typedef struct ColorSyncProfile* ColorSyncMutableProfileRef;
 #endif
 
 #if USE(APPLE_INTERNAL_SDK)
 
-#if PLATFORM(MAC)
+#if PLATFORM(MAC) && !PLATFORM(GNUSTEP)
 #include <ColorSync/ColorSyncPriv.h>
 #endif
 #include <CoreGraphics/CGFontCache.h>

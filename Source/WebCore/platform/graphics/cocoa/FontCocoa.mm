@@ -686,10 +686,10 @@ bool Font::canRenderCombiningCharacterSequence(const UChar* characters, size_t l
     CFIndex runCount = CFArrayGetCount(runArray);
 
     for (CFIndex r = 0; r < runCount; r++) {
-        CTRunRef ctRun = static_cast<CTRunRef>(CFArrayGetValueAtIndex(runArray, r));
+        CTRunRef ctRun = (CTRunRef)(CFArrayGetValueAtIndex(runArray, r));
         ASSERT(CFGetTypeID(ctRun) == CTRunGetTypeID());
         CFDictionaryRef runAttributes = CTRunGetAttributes(ctRun);
-        CTFontRef runFont = static_cast<CTFontRef>(CFDictionaryGetValue(runAttributes, kCTFontAttributeName));
+        CTFontRef runFont = (CTFontRef)(CFDictionaryGetValue(runAttributes, kCTFontAttributeName));
         if (!CFEqual(fontEqualityObject.get(), FontPlatformData::objectForEqualityCheck(runFont).get()))
             return false;
     }

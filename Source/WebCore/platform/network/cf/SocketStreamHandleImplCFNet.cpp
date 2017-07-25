@@ -126,20 +126,20 @@ void SocketStreamHandleImpl::scheduleStreams()
     m_connectingSubstate = WaitingForConnect;
 }
 
-void* SocketStreamHandleImpl::retainSocketStreamHandle(void* info)
+const void* SocketStreamHandleImpl::retainSocketStreamHandle(const void* info)
 {
-    SocketStreamHandle* handle = static_cast<SocketStreamHandle*>(info);
+    SocketStreamHandle* handle = (SocketStreamHandle*)info;
     handle->ref();
     return handle;
 }
 
-void SocketStreamHandleImpl::releaseSocketStreamHandle(void* info)
+void SocketStreamHandleImpl::releaseSocketStreamHandle(const void* info)
 {
-    SocketStreamHandle* handle = static_cast<SocketStreamHandle*>(info);
+    SocketStreamHandle* handle = (SocketStreamHandle *)info;
     handle->deref();
 }
 
-CFStringRef SocketStreamHandleImpl::copyPACExecutionDescription(void*)
+CFStringRef SocketStreamHandleImpl::copyPACExecutionDescription(const void*)
 {
     return CFSTR("WebSocket proxy PAC file execution");
 }
@@ -180,7 +180,7 @@ struct MainThreadPACCallbackInfo {
 
 void SocketStreamHandleImpl::pacExecutionCallback(void* client, CFArrayRef proxyList, CFErrorRef)
 {
-    SocketStreamHandleImpl* handle = static_cast<SocketStreamHandleImpl*>(client);
+    SocketStreamHandleImpl* handle = (SocketStreamHandleImpl*)client;
 
     callOnMainThreadAndWait([&] {
         ASSERT(handle->m_connectingSubstate == ExecutingPACFile);
@@ -444,15 +444,15 @@ void SocketStreamHandleImpl::addCONNECTCredentials(CFHTTPMessageRef proxyRespons
     m_client.didFailSocketStream(*this, SocketStreamError(0, m_url.string(), "Proxy credentials are not available"));
 }
 
-CFStringRef SocketStreamHandleImpl::copyCFStreamDescription(void* info)
+CFStringRef SocketStreamHandleImpl::copyCFStreamDescription(const void* info)
 {
-    SocketStreamHandleImpl* handle = static_cast<SocketStreamHandleImpl*>(info);
+    SocketStreamHandleImpl* handle = (SocketStreamHandleImpl*)info;
     return String("WebKit socket stream, " + handle->m_url.string()).createCFString().leakRef();
 }
 
 void SocketStreamHandleImpl::readStreamCallback(CFReadStreamRef stream, CFStreamEventType type, void* clientCallBackInfo)
 {
-    SocketStreamHandleImpl* handle = static_cast<SocketStreamHandleImpl*>(clientCallBackInfo);
+    SocketStreamHandleImpl* handle = (SocketStreamHandleImpl*)clientCallBackInfo;
     ASSERT_UNUSED(stream, stream == handle->m_readStream.get());
     // Workaround for <rdar://problem/17727073>. Keeping this below the assertion as we'd like better steps to reproduce this.
     if (!handle->m_readStream)
@@ -472,7 +472,7 @@ void SocketStreamHandleImpl::readStreamCallback(CFReadStreamRef stream, CFStream
 
 void SocketStreamHandleImpl::writeStreamCallback(CFWriteStreamRef stream, CFStreamEventType type, void* clientCallBackInfo)
 {
-    SocketStreamHandleImpl* handle = static_cast<SocketStreamHandleImpl*>(clientCallBackInfo);
+    SocketStreamHandleImpl* handle = (SocketStreamHandleImpl*)clientCallBackInfo;
     ASSERT_UNUSED(stream, stream == handle->m_writeStream.get());
     // This wasn't seen happening in practice, yet it seems like it could, due to symmetry with read stream callback.
     if (!handle->m_writeStream)
@@ -634,7 +634,12 @@ void SocketStreamHandleImpl::reportErrorToClient(CFErrorRef error)
 #endif
 
     if (CFEqual(CFErrorGetDomain(error), kCFErrorDomainOSStatus)) {
-        const char* descriptionOSStatus = GetMacOSStatusCommentString(static_cast<OSStatus>(errorCode));
+#if OS(DARWIN)
+	const char* descriptionOSStatus = GetMacOSStatusCommentString(static_cast<OSStatus>(errorCode));
+#else
+	const char* descriptionOSStatus = "wat";
+#endif
+
         if (descriptionOSStatus && descriptionOSStatus[0] != '\0')
             description = "OSStatus Error " + String::number(errorCode) + ": " + descriptionOSStatus;
     }

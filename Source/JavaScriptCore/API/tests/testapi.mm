@@ -512,55 +512,55 @@ static void* multiVMThreadMain(void* okPtr)
 
 static void testObjectiveCAPIMain()
 {
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSVirtualMachine* vm = [[JSVirtualMachine alloc] init];
         JSContext* context = [[JSContext alloc] initWithVirtualMachine:vm];
         [context evaluateScript:@"bad"];
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         JSValue *result = [context evaluateScript:@"2 + 2"];
         checkResult(@"2 + 2", result.isNumber && [result toInt32] == 4);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         NSString *result = [NSString stringWithFormat:@"Two plus two is %@", [context evaluateScript:@"2 + 2"]];
         checkResult(@"stringWithFormat", [result isEqual:@"Two plus two is 4"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"message"] = @"Hello";
         JSValue *result = [context evaluateScript:@"message + ', World!'"];
         checkResult(@"Hello, World!", result.isString && [result isEqualToObject:@"Hello, World!"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         checkResult(@"Promise is exposed", ![context[@"Promise"] isUndefined]);
         JSValue *result = [context evaluateScript:@"typeof Promise"];
         checkResult(@"typeof Promise is 'function'", result.isString && [result isEqualToObject:@"function"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSVirtualMachine* vm = [[JSVirtualMachine alloc] init];
         JSContext* context = [[JSContext alloc] initWithVirtualMachine:vm];
         [context evaluateScript:@"result = 0; Promise.resolve(42).then(function (value) { result = value; });"];
         checkResult(@"Microtask is drained", [context[@"result"]  isEqualToObject:@42]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSVirtualMachine* vm = [[JSVirtualMachine alloc] init];
         JSContext* context = [[JSContext alloc] initWithVirtualMachine:vm];
         TestObject* testObject = [TestObject testObject];
         context[@"testObject"] = testObject;
         [context evaluateScript:@"result = 0; callbackResult = 0; Promise.resolve(42).then(function (value) { result = value; }); callbackResult = testObject.getString();"];
         checkResult(@"Microtask is drained with same VM", [context[@"result"]  isEqualToObject:@42] && [context[@"callbackResult"] isEqualToObject:@"42"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         JSValue *result = [context evaluateScript:@"({ x:42 })"];
         checkResult(@"({ x:42 })", result.isObject && [result[@"x"] isEqualToObject:@42]);
@@ -568,21 +568,21 @@ static void testObjectiveCAPIMain()
         checkResult(@"Check dictionary literal", [obj isKindOfClass:[NSDictionary class]]);
         id num = (NSDictionary *)obj[@"x"];
         checkResult(@"Check numeric literal", [num isKindOfClass:[NSNumber class]]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         JSValue *result = [context evaluateScript:@"[ ]"];
         checkResult(@"[ ]", result.isArray);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         JSValue *result = [context evaluateScript:@"new Date"];
         checkResult(@"new Date", result.isDate);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSCollection* myPrivateProperties = [[JSCollection alloc] init];
 
         @autoreleasepool {
@@ -615,9 +615,9 @@ static void testObjectiveCAPIMain()
         checkResult(@"my_number is 42", ![myPrivateProperties valueForKey:@"my_number"]);
         checkResult(@"definitely_null is null", ![myPrivateProperties valueForKey:@"definitely_null"]);
         checkResult(@"not_sure_if_undefined is undefined", ![myPrivateProperties valueForKey:@"not_sure_if_undefined"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         JSValue *message = [JSValue valueWithObject:@"hello" inContext:context];
         TestObject *rootObject = [TestObject testObject];
@@ -629,9 +629,9 @@ static void testObjectiveCAPIMain()
             [context.virtualMachine addManagedReference:weakCollection withOwner:message];
             JSSynchronousGarbageCollectForDebugging([context JSGlobalContextRef]);
         }
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         __block int result;
         context[@"blockCallback"] = ^(int value){
@@ -639,10 +639,10 @@ static void testObjectiveCAPIMain()
         };
         [context evaluateScript:@"blockCallback(42)"];
         checkResult(@"blockCallback", result == 42);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
     if (blockSignatureContainsClass()) {
-        @autoreleasepool {
+        @autoreleasepool { @try {
             JSContext *context = [[JSContext alloc] init];
             __block bool result = false;
             context[@"blockCallback"] = ^(NSString *value){
@@ -650,18 +650,18 @@ static void testObjectiveCAPIMain()
             };
             [context evaluateScript:@"blockCallback(42)"];
             checkResult(@"blockCallback(NSString *)", result);
-        }
+        } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
     } else
         NSLog(@"Skipping 'blockCallback(NSString *)' test case");
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         checkResult(@"!context.exception", !context.exception);
         [context evaluateScript:@"!@#$%^&*() THIS IS NOT VALID JAVASCRIPT SYNTAX !@#$%^&*()"];
         checkResult(@"context.exception", context.exception);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         __block bool caught = false;
         context.exceptionHandler = ^(JSContext *context, JSValue *exception) {
@@ -671,9 +671,9 @@ static void testObjectiveCAPIMain()
         };
         [context evaluateScript:@"!@#$%^&*() THIS IS NOT VALID JAVASCRIPT SYNTAX !@#$%^&*()"];
         checkResult(@"JSContext.exceptionHandler", caught);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         __block int expectedExceptionLineNumber = 1;
         __block bool sawExpectedExceptionLineNumber = false;
@@ -687,9 +687,9 @@ static void testObjectiveCAPIMain()
         sawExpectedExceptionLineNumber = false;
         [context evaluateScript:@"// Line 1\n!@#$%^&*() THIS IS NOT VALID JAVASCRIPT SYNTAX !@#$%^&*()"];
         checkResult(@"evaluteScript exception on line 2", sawExpectedExceptionLineNumber);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         __block bool emptyExceptionSourceURL = false;
         context.exceptionHandler = ^(JSContext *, JSValue *exception) {
@@ -705,9 +705,9 @@ static void testObjectiveCAPIMain()
         NSURL *url = [NSURL fileURLWithPath:@"/foo/bar.js"];
         [context evaluateScript:@"!@#$%^&*() THIS IS NOT VALID JAVASCRIPT SYNTAX !@#$%^&*()" withSourceURL:url];
         checkResult(@"evaluateScript:withSourceURL: exception has expected sourceURL", [exceptionSourceURL isEqualToString:[url absoluteString]]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"callback"] = ^{
             JSContext *context = [JSContext currentContext];
@@ -716,9 +716,9 @@ static void testObjectiveCAPIMain()
         JSValue *result = [context evaluateScript:@"var result; try { callback(); } catch (e) { result = 'Caught exception'; }"];
         checkResult(@"Explicit throw in callback - was caught by JavaScript", [result isEqualToObject:@"Caught exception"]);
         checkResult(@"Explicit throw in callback - not thrown to Objective-C", !context.exception);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"callback"] = ^{
             JSContext *context = [JSContext currentContext];
@@ -727,9 +727,9 @@ static void testObjectiveCAPIMain()
         JSValue *result = [context evaluateScript:@"var result; try { callback(); } catch (e) { result = 'Caught exception'; }"];
         checkResult(@"Implicit throw in callback - was caught by JavaScript", [result isEqualToObject:@"Caught exception"]);
         checkResult(@"Implicit throw in callback - not thrown to Objective-C", !context.exception);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         [context evaluateScript:
             @"function sum(array) { \
@@ -742,9 +742,9 @@ static void testObjectiveCAPIMain()
         JSValue *sumFunction = context[@"sum"];
         JSValue *result = [sumFunction callWithArguments:@[ array ]];
         checkResult(@"sum([13, 2, 7])", [result toInt32] == 22);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         JSValue *mulAddFunction = [context evaluateScript:
             @"(function(array, object) { \
@@ -755,9 +755,9 @@ static void testObjectiveCAPIMain()
             })"];
         JSValue *result = [mulAddFunction callWithArguments:@[ @[ @2, @4, @8 ], @{ @"x":@0.5, @"y":@42 } ]];
         checkResult(@"mulAddFunction", result.isObject && [[result toString] isEqual:@"43,44,46"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];        
         JSValue *array = [JSValue valueWithNewArrayInContext:context];
         checkResult(@"arrayLengthEmpty", [[array[@"length"] toNumber] unsignedIntegerValue] == 0);
@@ -786,9 +786,9 @@ static void testObjectiveCAPIMain()
         checkResult(@"valueAtIndex:maxLength - 1", [[array valueAtIndex:(maxLength - 1)] toInt32] == 42);
         checkResult(@"valueAtIndex:maxLength", [[array valueAtIndex:maxLength] toInt32] == 24);
         checkResult(@"valueAtIndex:maxLength + 1", [[array valueAtIndex:(maxLength + 1)] toInt32] == 24);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         JSValue *object = [JSValue valueWithNewObjectInContext:context];
 
@@ -802,9 +802,9 @@ static void testObjectiveCAPIMain()
 
         object[[@"foobar" substringToIndex:3]] = @"bar";
         checkResult(@"substring used as subscript", [[object[@"foo"] toString] isEqual:@"bar"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TextXYZ *testXYZ = [[TextXYZ alloc] init];
         context[@"testXYZ"] = testXYZ;
@@ -816,9 +816,9 @@ static void testObjectiveCAPIMain()
         checkResult(@"TextXYZ - testXYZTested", testXYZTested);
         JSValue *result = [context evaluateScript:@"testXYZ.x + ',' + testXYZ.y + ',' + testXYZ.z"];
         checkResult(@"TextXYZ - result", [result isEqualToObject:@"13,4,undefined"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         [context[@"Object"][@"prototype"] defineProperty:@"getterProperty" descriptor:@{
             JSPropertyDescriptorGetKey:^{
@@ -828,9 +828,9 @@ static void testObjectiveCAPIMain()
         JSValue *object = [JSValue valueWithObject:@{ @"x":@101 } inContext:context];
         int result = [object [@"getterProperty"] toInt32];
         checkResult(@"getterProperty", result == 101);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"concatenate"] = ^{
             NSArray *arguments = [JSContext currentArguments];
@@ -843,70 +843,70 @@ static void testObjectiveCAPIMain()
         };
         JSValue *result = [context evaluateScript:@"concatenate('Hello,', 'World!')"];
         checkResult(@"concatenate", [result isEqualToObject:@"Hello, World!"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"foo"] = @YES;
         checkResult(@"@YES is boolean", [context[@"foo"] isBoolean]);
         JSValue *result = [context evaluateScript:@"typeof foo"];
         checkResult(@"@YES is boolean", [result isEqualToObject:@"boolean"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         JSValue *result = [context evaluateScript:@"String(console)"];
         checkResult(@"String(console)", [result isEqualToObject:@"[object Console]"]);
         result = [context evaluateScript:@"typeof console.log"];
         checkResult(@"typeof console.log", [result isEqualToObject:@"function"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject* testObject = [TestObject testObject];
         context[@"testObject"] = testObject;
         JSValue *result = [context evaluateScript:@"String(testObject)"];
         checkResult(@"String(testObject)", [result isEqualToObject:@"[object TestObject]"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject* testObject = [TestObject testObject];
         context[@"testObject"] = testObject;
         JSValue *result = [context evaluateScript:@"String(testObject.__proto__)"];
         checkResult(@"String(testObject.__proto__)", [result isEqualToObject:@"[object TestObjectPrototype]"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"TestObject"] = [TestObject class];
         JSValue *result = [context evaluateScript:@"String(TestObject)"];
         checkResult(@"String(TestObject)", [result isEqualToObject:@"function TestObject() {\n    [native code]\n}"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         JSValue* value = [JSValue valueWithObject:[TestObject class] inContext:context];
         checkResult(@"[value toObject] == [TestObject class]", [value toObject] == [TestObject class]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"TestObject"] = [TestObject class];
         JSValue *result = [context evaluateScript:@"TestObject.parentTest()"];
         checkResult(@"TestObject.parentTest()", [result isEqualToObject:@"TestObject"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject* testObject = [TestObject testObject];
         context[@"testObjectA"] = testObject;
         context[@"testObjectB"] = testObject;
         JSValue *result = [context evaluateScript:@"testObjectA == testObjectB"];
         checkResult(@"testObjectA == testObjectB", result.isBoolean && [result toBool]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject* testObject = [TestObject testObject];
         context[@"testObject"] = testObject;
@@ -914,9 +914,9 @@ static void testObjectiveCAPIMain()
         JSValue *result = [context evaluateScript:@"var result = JSON.stringify(testObject.point); testObject.point = {x:12,y:14}; result"];
         checkResult(@"testObject.point - result", [result isEqualToObject:@"{\"x\":3,\"y\":4}"]);
         checkResult(@"testObject.point - {x:12,y:14}", testObject.point.x == 12 && testObject.point.y == 14);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject* testObject = [TestObject testObject];
         testObject.six = 6;
@@ -924,65 +924,65 @@ static void testObjectiveCAPIMain()
         context[@"mul"] = ^(int x, int y){ return x * y; };
         JSValue *result = [context evaluateScript:@"mul(testObject.six, 7)"];
         checkResult(@"mul(testObject.six, 7)", result.isNumber && [result toInt32] == 42);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject* testObject = [TestObject testObject];
         context[@"testObject"] = testObject;
         context[@"testObject"][@"variable"] = @4;
         [context evaluateScript:@"++testObject.variable"];
         checkResult(@"++testObject.variable", testObject.variable == 5);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"point"] = @{ @"x":@6, @"y":@7 };
         JSValue *result = [context evaluateScript:@"point.x + ',' + point.y"];
         checkResult(@"point.x + ',' + point.y", [result isEqualToObject:@"6,7"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"point"] = @{ @"x":@6, @"y":@7 };
         JSValue *result = [context evaluateScript:@"point.x + ',' + point.y"];
         checkResult(@"point.x + ',' + point.y", [result isEqualToObject:@"6,7"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject* testObject = [TestObject testObject];
         context[@"testObject"] = testObject;
         JSValue *result = [context evaluateScript:@"testObject.getString()"];
         checkResult(@"testObject.getString()", result.isString && [result toInt32] == 42);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject* testObject = [TestObject testObject];
         context[@"testObject"] = testObject;
         JSValue *result = [context evaluateScript:@"testObject.testArgumentTypes(101,0.5,true,'foo',666,[false,'bar',false],{x:'baz'})"];
         checkResult(@"testObject.testArgumentTypes", [result isEqualToObject:@"101,0.5,1,foo,666,bar,baz"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject* testObject = [TestObject testObject];
         context[@"testObject"] = testObject;
         JSValue *result = [context evaluateScript:@"testObject.getString.call(testObject)"];
         checkResult(@"testObject.getString.call(testObject)", result.isString && [result toInt32] == 42);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject* testObject = [TestObject testObject];
         context[@"testObject"] = testObject;
         checkResult(@"testObject.getString.call({}) pre", !context.exception);
         [context evaluateScript:@"testObject.getString.call({})"];
         checkResult(@"testObject.getString.call({}) post", context.exception);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject* testObject = [TestObject testObject];
         context[@"testObject"] = testObject;
@@ -990,26 +990,26 @@ static void testObjectiveCAPIMain()
         checkResult(@"testObject.callback", result.isNumber && [result toInt32] == 42);
         result = [context evaluateScript:@"testObject.bogusCallback"];
         checkResult(@"testObject.bogusCallback == undefined", result.isUndefined);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject *testObject = [TestObject testObject];
         context[@"testObject"] = testObject;
         JSValue *result = [context evaluateScript:@"Function.prototype.toString.call(testObject.callback)"];
         checkResult(@"Function.prototype.toString", !context.exception && !result.isUndefined);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context1 = [[JSContext alloc] init];
         JSContext *context2 = [[JSContext alloc] initWithVirtualMachine:context1.virtualMachine];
         JSValue *value = [JSValue valueWithDouble:42 inContext:context2];
         context1[@"passValueBetweenContexts"] = value;
         JSValue *result = [context1 evaluateScript:@"passValueBetweenContexts"];
         checkResult(@"[value isEqualToObject:result]", [value isEqualToObject:result]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"handleTheDictionary"] = ^(NSDictionary *dict) {
             NSDictionary *expectedDict = @{
@@ -1031,9 +1031,9 @@ static void testObjectiveCAPIMain()
             checkResult(@"recursively convert nested arrays", [array isEqualToArray:expectedArray]);
         };
         [context evaluateScript:@"var myArray = ['foo', 'bar', ['baz']]; handleTheArray(myArray);"];
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject *testObject = [TestObject testObject];
         @autoreleasepool {
@@ -1047,9 +1047,9 @@ static void testObjectiveCAPIMain()
         @autoreleasepool {
             context[@"testObject"] = testObject;
         }
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TextXYZ *testXYZ = [[TextXYZ alloc] init];
 
@@ -1101,9 +1101,9 @@ static void testObjectiveCAPIMain()
             JSValue *result = [context evaluateScript:@"didClick"];
             checkResult(@"Event handler onclick doesn't fire", ![result toBool]);
         }
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TinyDOMNode *root = [[TinyDOMNode alloc] initWithVirtualMachine:context.virtualMachine];
         TinyDOMNode *lastNode = root;
@@ -1130,9 +1130,9 @@ static void testObjectiveCAPIMain()
 
         JSValue *myCustomProperty = [context evaluateScript:@"getLastNodeInChain(root).myCustomProperty"];
         checkResult(@"My custom property == 42", myCustomProperty.isNumber && [myCustomProperty toInt32] == 42);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TinyDOMNode *root = [[TinyDOMNode alloc] initWithVirtualMachine:context.virtualMachine];
         TinyDOMNode *lastNode = root;
@@ -1162,26 +1162,26 @@ static void testObjectiveCAPIMain()
 
         JSValue *myCustomProperty = [context evaluateScript:@"getLastNodeInChain(root).myCustomProperty"];
         checkResult(@"duplicate calls to addManagedReference don't cause things to die", myCustomProperty.isNumber && [myCustomProperty toInt32] == 42);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         JSValue *o = [JSValue valueWithNewObjectInContext:context];
         o[@"foo"] = @"foo";
         JSSynchronousGarbageCollectForDebugging([context JSGlobalContextRef]);
 
         checkResult(@"JSValue correctly protected its internal value", [[o[@"foo"] toString] isEqualToString:@"foo"]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject *testObject = [TestObject testObject];
         context[@"testObject"] = testObject;
         [context evaluateScript:@"testObject.__lookupGetter__('variable').call({})"];
         checkResult(@"Make sure we throw an exception when calling getter on incorrect |this|", context.exception);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         static const unsigned count = 100;
         NSMutableArray *array = [NSMutableArray arrayWithCapacity:count];
         JSContext *context = [[JSContext alloc] init];
@@ -1195,9 +1195,9 @@ static void testObjectiveCAPIMain()
         JSSynchronousGarbageCollectForDebugging([context JSGlobalContextRef]);
         for (unsigned i = 0; i < count; ++i)
             [context.virtualMachine addManagedReference:array[i] withOwner:array];
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         TestObject *testObject = [TestObject testObject];
         JSManagedValue *managedTestObject;
         @autoreleasepool {
@@ -1206,9 +1206,9 @@ static void testObjectiveCAPIMain()
             managedTestObject = [JSManagedValue managedValueWithValue:context[@"testObject"]];
             [context.virtualMachine addManagedReference:managedTestObject withOwner:testObject];
         }
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         TestObject *testObject = [TestObject testObject];
         context[@"testObject"] = testObject;
@@ -1219,9 +1219,9 @@ static void testObjectiveCAPIMain()
             [context.virtualMachine addManagedReference:managedValue withOwner:testObject];
         }
         JSSynchronousGarbageCollectForDebugging([context JSGlobalContextRef]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"MyClass"] = ^{
             JSValue *newThis = [JSValue valueWithNewObjectInContext:[JSContext currentContext]];
@@ -1258,9 +1258,9 @@ static void testObjectiveCAPIMain()
         checkResult(@"!(value2 instanceof MyClass)", ![value2 isInstanceOf:constructor1]);
         checkResult(@"MyOtherClass.prototype.constructor === MyOtherClass", [[context evaluateScript:@"MyOtherClass.prototype.constructor === MyOtherClass"] toBool]);
         checkResult(@"MyOtherClass instanceof Function", [[context evaluateScript:@"MyOtherClass instanceof Function"] toBool]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"MyClass"] = ^{
             NSLog(@"I'm intentionally not returning anything.");
@@ -1269,17 +1269,17 @@ static void testObjectiveCAPIMain()
         checkResult(@"result === undefined", result.isUndefined);
         checkResult(@"exception.message is correct'", context.exception 
             && [@"Objective-C blocks called as constructors must return an object." isEqualToString:[context.exception[@"message"] toString]]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         checkResult(@"[JSContext currentThis] == nil outside of callback", ![JSContext currentThis]);
         checkResult(@"[JSContext currentArguments] == nil outside of callback", ![JSContext currentArguments]);
         if ([JSContext currentCallee])
             checkResult(@"[JSContext currentCallee] == nil outside of callback", ![JSContext currentCallee]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
     if ([JSContext currentCallee]) {
-        @autoreleasepool {
+        @autoreleasepool { @try {
             JSContext *context = [[JSContext alloc] init];
             context[@"testFunction"] = ^{
                 checkResult(@"testFunction.foo === 42", [[JSContext currentCallee][@"foo"] toInt32] == 42);
@@ -1295,10 +1295,10 @@ static void testObjectiveCAPIMain()
                 return newThis;
             };
             checkResult(@"(new TestConstructor) instanceof TestConstructor", [context evaluateScript:@"(new TestConstructor) instanceof TestConstructor"]);
-        }
+        } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
     }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"TestObject"] = [TestObject class];
         JSValue *testObject = [context evaluateScript:@"(new TestObject())"];
@@ -1307,9 +1307,9 @@ static void testObjectiveCAPIMain()
         context[@"TextXYZ"] = [TextXYZ class];
         JSValue *textObject = [context evaluateScript:@"(new TextXYZ(\"Called TextXYZ constructor!\"))"];
         checkResult(@"textObject instanceof TextXYZ", [textObject isInstanceOf:context[@"TextXYZ"]]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"ClassA"] = [ClassA class];
         context[@"ClassB"] = [ClassB class];
@@ -1342,9 +1342,9 @@ static void testObjectiveCAPIMain()
             } \
         })()"];
         checkResult(@"shouldn't be able to construct ClassCPrime", ![canConstructClassCPrime toBool]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"ClassA"] = [ClassA class];
         context.exceptionHandler = ^(JSContext *context, JSValue *exception) {
@@ -1355,18 +1355,18 @@ static void testObjectiveCAPIMain()
         checkResult(@"ObjC Constructor without 'new' pre", !context.exception);
         [context evaluateScript:@"ClassA(42)"];
         checkResult(@"ObjC Constructor without 'new' post", context.exception);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"ClassD"] = [ClassD class];
         context[@"ClassE"] = [ClassE class];
        
         JSValue *d = [context evaluateScript:@"(new ClassD())"];
         checkResult(@"Returning instance of ClassE from ClassD's init has correct class", [d isInstanceOf:context[@"ClassE"]]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         while (!evilAllocationObjectWasDealloced) {
             @autoreleasepool {
@@ -1376,9 +1376,9 @@ static void testObjectiveCAPIMain()
             }
         }
         checkResult(@"EvilAllocationObject was successfully dealloced without crashing", evilAllocationObjectWasDealloced);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         checkResult(@"default context.name is nil", context.name == nil);
         NSString *name1 = @"Name1";
@@ -1393,9 +1393,9 @@ static void testObjectiveCAPIMain()
         checkResult(@"fetched context.name was expected", [fetchedName2 isEqualToString:name2]);
         checkResult(@"fetched context.name was expected", ![fetchedName1 isEqualToString:fetchedName2]);
         checkResult(@"fetched context.name was expected", fetchedName3 == nil);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         context[@"UnexportedObject"] = [UnexportedObject class];
         context[@"makeObject"] = ^{
@@ -1403,15 +1403,15 @@ static void testObjectiveCAPIMain()
         };
         JSValue *result = [context evaluateScript:@"(makeObject() instanceof UnexportedObject)"];
         checkResult(@"makeObject() instanceof UnexportedObject", result.isBoolean && [result toBool]);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         [[JSValue valueWithInt32:42 inContext:context] toDictionary];
         [[JSValue valueWithInt32:42 inContext:context] toArray];
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
 
         // Create the root, make it reachable from JS, and force an EdenCollection
@@ -1441,9 +1441,9 @@ static void testObjectiveCAPIMain()
         
         // Check that the managed JSValue is still alive.
         checkResult(@"EdenCollection doesn't reclaim new managed values", [managedJSObject value] != nil);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
-    @autoreleasepool {
+    @autoreleasepool { @try {
         JSContext *context = [[JSContext alloc] init];
         
         pthread_t threadID;
@@ -1452,9 +1452,9 @@ static void testObjectiveCAPIMain()
         JSSynchronousGarbageCollectForDebugging([context JSGlobalContextRef]);
 
         checkResult(@"Did not crash after entering the VM from another thread", true);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
     
-    @autoreleasepool {
+    @autoreleasepool { @try {
         std::vector<pthread_t> threads;
         bool ok = true;
         for (unsigned i = 0; i < 5; ++i) {
@@ -1467,10 +1467,10 @@ static void testObjectiveCAPIMain()
             pthread_join(thread, nullptr);
 
         checkResult(@"Ran code in five concurrent VMs that GC'd", ok);
-    }
+    } @catch(NSException *e) { NSLog(@"EXCEPTION: %@", e); } }
 
     currentThisInsideBlockGetterTest();
-    //runDateTests();
+    runDateTests();
     runJSExportTests();
     runRegress141275();
     runRegress141809();

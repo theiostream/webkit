@@ -57,6 +57,10 @@
 #endif
 
 #if PLATFORM(COCOA)
+#ifndef nil
+#define nil 0
+#endif
+
 OBJC_CLASS NSURLAuthenticationChallenge;
 OBJC_CLASS NSURLConnection;
 #endif

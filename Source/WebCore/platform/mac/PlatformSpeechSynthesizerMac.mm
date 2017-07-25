@@ -78,8 +78,8 @@
 - (void)updateBasePitchForSynthesizer
 {
     // Reset the base pitch whenever we change voices, since the base pitch is different for each voice.
-    [m_synthesizer setObject:nil forProperty:NSSpeechResetProperty error:nil];
-    m_basePitch = [[m_synthesizer objectForProperty:NSSpeechPitchBaseProperty error:nil] floatValue];
+    [m_synthesizer setObject:nil forProperty:NSSpeechResetProperty error:NULL];
+    m_basePitch = [[m_synthesizer objectForProperty:NSSpeechPitchBaseProperty error:NULL] floatValue];
 }
 
 - (void)speakUtterance:(WebCore::PlatformSpeechSynthesisUtterance *)utterance
@@ -127,7 +127,7 @@
     if (m_basePitch == 0 || updatePitch)
         [self updateBasePitchForSynthesizer];
 
-    [m_synthesizer setObject:[NSNumber numberWithFloat:[self convertPitchToNSSpeechValue:utterance->pitch()]] forProperty:NSSpeechPitchBaseProperty error:nil];
+    [m_synthesizer setObject:[NSNumber numberWithFloat:[self convertPitchToNSSpeechValue:utterance->pitch()]] forProperty:NSSpeechPitchBaseProperty error:NULL];
     [m_synthesizer setRate:[self convertRateToWPM:utterance->rate()]];
     [m_synthesizer setVolume:utterance->volume()];
 

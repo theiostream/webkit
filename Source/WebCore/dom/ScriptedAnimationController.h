@@ -81,7 +81,9 @@ public:
     void addThrottlingReason(ThrottlingReason);
     void removeThrottlingReason(ThrottlingReason);
     WEBCORE_EXPORT bool isThrottled() const;
+#if USE(REQUEST_ANIMATION_FRAME_DISPLAY_MONITOR)
     WEBCORE_EXPORT Seconds interval() const;
+#endif
 
     void windowScreenDidChange(PlatformDisplayID);
 

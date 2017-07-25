@@ -31,13 +31,16 @@
 #include "CommonCryptoUtilities.h"
 #include "LocalizedStrings.h"
 #include <CommonCrypto/CommonSymmetricKeywrap.h>
-#include <crt_externs.h>
 #include <wtf/text/Base64.h>
 #include <wtf/text/CString.h>
 #include <wtf/CryptographicUtilities.h>
 #include <wtf/RetainPtr.h>
 
-#define USE_KEYCHAIN_ACCESS_CONTROL_LISTS (!PLATFORM(IOS))
+#if OS(DARWIN)
+#include <crt_externs.h>
+#endif
+
+#define USE_KEYCHAIN_ACCESS_CONTROL_LISTS (!PLATFORM(IOS) && !PLATFORM(GNUSTEP))
 
 namespace WebCore {
 
@@ -64,8 +67,12 @@ static NSString* masterKeyAccountNameForCurrentApplication()
 #else
     NSString *bundleIdentifier = [[NSRunningApplication currentApplication] bundleIdentifier];
 #endif
+
+#if OS(DARWIN)
     if (!bundleIdentifier)
         bundleIdentifier = [NSString stringWithCString:*_NSGetProgname() encoding:NSASCIIStringEncoding];
+#endif
+
     return [NSString stringWithFormat:@"com.apple.WebKit.WebCrypto.master+%@", bundleIdentifier];
 }
 

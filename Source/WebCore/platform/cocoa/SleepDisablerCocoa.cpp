@@ -26,7 +26,7 @@
 #include "config.h"
 #include "SleepDisablerCocoa.h"
 
-#if PLATFORM(COCOA)
+#if PLATFORM(COCOA) && !PLATFORM(GNUSTEP)
 
 #include "IOPMLibSPI.h"
 #include <wtf/RetainPtr.h>

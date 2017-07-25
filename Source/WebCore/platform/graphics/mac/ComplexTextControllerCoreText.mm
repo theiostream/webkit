@@ -242,13 +242,13 @@ void ComplexTextController::collectComplexTextRunsForCharacters(const UChar* cp,
     CFIndex runCount = CFArrayGetCount(runArray);
 
     for (CFIndex r = 0; r < runCount; r++) {
-        CTRunRef ctRun = static_cast<CTRunRef>(CFArrayGetValueAtIndex(runArray, m_run.ltr() ? r : runCount - 1 - r));
+        CTRunRef ctRun = (CTRunRef)(CFArrayGetValueAtIndex(runArray, m_run.ltr() ? r : runCount - 1 - r));
         ASSERT(CFGetTypeID(ctRun) == CTRunGetTypeID());
         CFRange runRange = CTRunGetStringRange(ctRun);
         const Font* runFont = font;
         if (isSystemFallback) {
             CFDictionaryRef runAttributes = CTRunGetAttributes(ctRun);
-            CTFontRef runCTFont = static_cast<CTFontRef>(CFDictionaryGetValue(runAttributes, kCTFontAttributeName));
+            CTFontRef runCTFont = (CTFontRef)(CFDictionaryGetValue(runAttributes, kCTFontAttributeName));
             ASSERT(runCTFont && CFGetTypeID(runCTFont) == CTFontGetTypeID());
             RetainPtr<CFTypeRef> runFontEqualityObject = FontPlatformData::objectForEqualityCheck(runCTFont);
             if (!safeCFEqual(runFontEqualityObject.get(), font->platformData().objectForEqualityCheck().get())) {

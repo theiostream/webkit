@@ -43,6 +43,8 @@ use JSON::PP;
 use IDLParser;
 use CodeGenerator;
 
+print "HELLO WORLD LOCAL";
+
 my @idlDirectories;
 my $outputDirectory;
 my $outputHeadersDirectory;

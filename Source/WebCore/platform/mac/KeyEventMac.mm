@@ -31,7 +31,7 @@
 #import "KeyEventCocoa.h"
 #import "Logging.h"
 #import "WindowsKeyboardCodes.h"
-#import <Carbon/Carbon.h>
+//#import <Carbon/Carbon.h>
 
 using namespace WTF;
 
@@ -64,16 +64,17 @@ void PlatformKeyboardEvent::disambiguateKeyDownEvent(Type type, bool backwardCom
 
 bool PlatformKeyboardEvent::currentCapsLockState()
 {
-    return GetCurrentKeyModifiers() & alphaLock;
+    //return GetCurrentKeyModifiers() & alphaLock;
+    return false;
 }
 
 void PlatformKeyboardEvent::getCurrentModifierState(bool& shiftKey, bool& ctrlKey, bool& altKey, bool& metaKey)
 {
-    UInt32 currentModifiers = GetCurrentKeyModifiers();
+    /*UInt32 currentModifiers = GetCurrentKeyModifiers();
     shiftKey = currentModifiers & ::shiftKey;
     ctrlKey = currentModifiers & ::controlKey;
     altKey = currentModifiers & ::optionKey;
-    metaKey = currentModifiers & ::cmdKey;
+    metaKey = currentModifiers & ::cmdKey;*/
 }
 
 } // namespace WebCore

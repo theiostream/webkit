@@ -202,7 +202,7 @@ bool ProtectionSpace::receivesCredentialSecurely() const
 
 bool ProtectionSpace::encodingRequiresPlatformData(NSURLProtectionSpace *space)
 {
-    return space.distinguishedNames || space.serverTrust;
+    return space.distinguishedNames;// || space.serverTrust;
 }
 
 } // namespace WebCore

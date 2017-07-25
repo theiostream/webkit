@@ -31,13 +31,18 @@
 #include <wtf/RetainPtr.h>
 #include <wtf/Vector.h>
 
-#if PLATFORM(COCOA) && USE(CA) && !PLATFORM(IOS_SIMULATOR)
+#if PLATFORM(COCOA) && USE(CA) && !PLATFORM(IOS_SIMULATOR) && !PLATFORM(GNUSTEP)
 #define USE_IOSURFACE_CANVAS_BACKING_STORE 1
 #endif
 
 typedef struct CGColorSpace *CGColorSpaceRef;
 typedef struct CGDataProvider *CGDataProviderRef;
+
+#if PLATFORM(GNUSTEP)
+#include <CoreGraphics/CGImage.h>
+#else
 typedef uint32_t CGBitmapInfo;
+#endif
 
 namespace WebCore {
 

@@ -29,11 +29,12 @@
 #import "Logging.h"
 #import "WebGPULayer.h"
 
-#import <Metal/Metal.h>
 #import <runtime/ArrayBuffer.h>
 #import <wtf/BlockObjCExceptions.h>
 
 #if ENABLE(WEBGPU)
+
+#import <Metal/Metal.h>
 
 namespace WebCore {
 

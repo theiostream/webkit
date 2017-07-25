@@ -30,6 +30,8 @@
 
 #import "FileSystem.h"
 
+#import <ApplicationServices/ApplicationServices.h>
+
 #if PLATFORM(IOS)
 #import <MobileCoreServices/MobileCoreServices.h>
 #endif

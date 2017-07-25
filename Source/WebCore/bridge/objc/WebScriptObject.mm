@@ -246,7 +246,7 @@ void disconnectWindowWrapper(WebScriptObject *windowWrapper)
 
 - (BOOL)_hasImp
 {
-    return _private->imp != nil;
+    return _private->imp != NULL;
 }
 
 // Node that DOMNode overrides this method. So you should almost always
@@ -283,7 +283,7 @@ void disconnectWindowWrapper(WebScriptObject *windowWrapper)
 - (JSGlobalContextRef)_globalContextRef
 {
     if (![self _isSafeScript])
-        return nil;
+        return NULL;
     return toGlobalRef([self _rootObject]->globalObject()->globalExec());
 }
 

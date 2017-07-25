@@ -40,7 +40,7 @@ namespace WebCore {
 
 bool shouldRegisterInsertionUndoGroup(NSAttributedString* string)
 {
-    return [string attribute:NSTextInsertionUndoableAttributeName atIndex:0 effectiveRange:nil];
+    return [string attribute:NSTextInsertionUndoableAttributeName atIndex:0 effectiveRange:NULL];
 }
     
 void registerInsertionUndoGroupingWithUndoManager(NSUndoManager* undoManager)

@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <CoreGraphics/CoreGraphics.h>
+
 #include "GraphicsLayer.h"
 #include "PlatformCAAnimation.h"
 #include "PlatformCALayer.h"

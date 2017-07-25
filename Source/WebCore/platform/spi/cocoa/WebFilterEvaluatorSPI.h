@@ -29,7 +29,7 @@
 
 #else
 
-#import <TargetConditionals.h>
+//#import <TargetConditionals.h>
 
 enum {
     kWFEStateAllowed = 0,
@@ -48,9 +48,9 @@ enum {
 - (NSData *)dataComplete;
 - (OSStatus)filterState;
 - (id)initWithResponse:(NSURLResponse *)response;
-#if TARGET_OS_IPHONE
-- (void)unblockWithCompletion:(void (^)(BOOL unblocked, NSError *error))completion;
-#endif
+//#if TARGET_OS_IPHONE
+//- (void)unblockWithCompletion:(void (^)(BOOL unblocked, NSError *error))completion;
+//#endif
 @end
 
 #endif

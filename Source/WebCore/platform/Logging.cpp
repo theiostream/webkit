@@ -31,7 +31,7 @@
 #include <wtf/text/CString.h>
 #include <wtf/text/WTFString.h>
 
-#if PLATFORM(COCOA)
+#if PLATFORM(COCOA) && !PLATFORM(GNUSTEP)
 #include <notify.h>
 #endif
 
@@ -81,7 +81,7 @@ void initializeLogChannelsIfNecessary()
 #ifndef NDEBUG
 void registerNotifyCallback(const String& notifyID, std::function<void()> callback)
 {
-#if PLATFORM(COCOA)
+#if PLATFORM(COCOA) && !PLATFORM(GNUSTEP)
     int token;
     notify_register_dispatch(notifyID.utf8().data(), &token, dispatch_get_main_queue(), ^(int) {
         callback();

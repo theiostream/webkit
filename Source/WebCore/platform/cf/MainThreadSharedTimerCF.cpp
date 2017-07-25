@@ -29,7 +29,7 @@
 #include <wtf/AutodrainedPool.h>
 
 #if PLATFORM(MAC)
-#import "PowerObserverMac.h"
+//#import "PowerObserverMac.h"
 #elif PLATFORM(IOS)
 #import "WebCoreThreadInternal.h"
 #import "WebCoreThreadRun.h"
@@ -54,7 +54,7 @@ static void applicationDidBecomeActive(CFNotificationCenterRef, void*, CFStringR
 
 static void setupPowerObserver()
 {
-#if PLATFORM(MAC)
+/*#if PLATFORM(MAC)
     static PowerObserver* powerObserver;
     if (!powerObserver)
         powerObserver = std::make_unique<PowerObserver>(restartSharedTimer).release();
@@ -65,7 +65,7 @@ static void setupPowerObserver()
         CFNotificationCenterRef notificationCenter = CFNotificationCenterGetLocalCenter();
         CFNotificationCenterAddObserver(notificationCenter, nullptr, applicationDidBecomeActive, CFSTR("UIApplicationDidBecomeActiveNotification"), nullptr, CFNotificationSuspensionBehaviorCoalesce);
     }
-#endif
+#endif*/
 }
 
 static void timerFired(CFRunLoopTimerRef, void*)

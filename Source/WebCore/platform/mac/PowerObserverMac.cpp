@@ -23,6 +23,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if 0
 #import "config.h"
 
 #if PLATFORM(MAC)
@@ -73,5 +74,7 @@ void PowerObserver::didReceiveSystemPowerNotification(io_service_t, uint32_t mes
 }
 
 } // namespace WebCore
+
+#endif
 
 #endif

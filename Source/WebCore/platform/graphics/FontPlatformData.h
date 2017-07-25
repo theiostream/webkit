@@ -52,8 +52,10 @@
 OBJC_CLASS NSFont;
 #endif
 
-#if PLATFORM(COCOA)
+#if PLATFORM(COCOA) && !PLATFORM(GNUSTEP)
 typedef const struct __CTFont* CTFontRef;
+#elif PLATFORM(GNUSTEP)
+typedef struct OPFont *CTFontRef;
 #endif
 
 #if USE(CG)

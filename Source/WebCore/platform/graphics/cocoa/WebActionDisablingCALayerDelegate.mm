@@ -25,6 +25,8 @@
 
 #import "config.h"
 
+#include <dispatch/dispatch.h>
+
 #import "WebActionDisablingCALayerDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 

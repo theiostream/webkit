@@ -79,8 +79,8 @@ void BlacklistUpdater::reloadIfNecessary()
     if (stat([blacklistPath fileSystemRepresentation], &statBuf) == -1)
         return;
 
-    if (statBuf.st_mtimespec.tv_sec == blacklistUpdateTime)
-        return;
+    //if (statBuf.st_mtimespec.tv_sec == blacklistUpdateTime)
+    //    return;
     NSDictionary *propertyList = readBlacklistData();
     if (!propertyList)
         return;
@@ -98,7 +98,11 @@ void BlacklistUpdater::reloadIfNecessary()
     s_pluginBlacklist = PluginBlacklist::create(propertyList).release();
     s_webGLBlacklist = WebGLBlacklist::create(propertyList).release();
 
+#if OS(LINUX)
+    blacklistUpdateTime = statBuf.st_mtime;
+#else
     blacklistUpdateTime = statBuf.st_mtimespec.tv_sec;
+#endif
 }
 
 void BlacklistUpdater::initializeQueue()

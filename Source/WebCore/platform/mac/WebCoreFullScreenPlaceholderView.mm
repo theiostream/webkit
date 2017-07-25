@@ -31,6 +31,7 @@
 #include "LocalizedStrings.h"
 #include "WebCoreFullScreenWarningView.h"
 #include <wtf/text/WTFString.h>
+#import <QuartzCore/NSView+CALayer.h>
 
 @interface CAFilter : NSObject
 + (CAFilter *)filterWithType:(NSString *)type;

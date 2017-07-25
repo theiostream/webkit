@@ -29,6 +29,8 @@
 
 #if USE(CG)
 
+#include <CoreGraphics/CoreGraphics.h>
+
 #include "AffineTransform.h"
 #include "FloatRect.h"
 #include "GraphicsContext.h"
@@ -84,7 +86,7 @@ Path Path::polygonPathFromPoints(const Vector<FloatPoint>& points)
     for (size_t i = 0; i < points.size(); ++i)
         cgPoints.uncheckedAppend(points[i]);
 
-    CGPathAddLines(path.ensurePlatformPath(), nullptr, cgPoints.data(), cgPoints.size());
+    CGPathAddLines((CGMutablePathRef)path.ensurePlatformPath(), nullptr, cgPoints.data(), cgPoints.size());
     path.closeSubpath();
     return path;
 }
@@ -95,7 +97,7 @@ Path::Path()
 }
 
 Path::Path(RetainPtr<CGMutablePathRef> p)
-    : m_path(p.leakRef())
+    : m_path((CGPathRef)p.leakRef())
 {
 }
 
@@ -108,13 +110,13 @@ Path::~Path()
 PlatformPathPtr Path::ensurePlatformPath()
 {
     if (!m_path)
-        m_path = CGPathCreateMutable();
+        m_path = (CGPathRef)CGPathCreateMutable();
     return m_path;
 }
 
 Path::Path(const Path& other)
 {
-    m_path = other.m_path ? CGPathCreateMutableCopy(other.m_path) : 0;
+    m_path = other.m_path ? (CGPathRef)CGPathCreateMutableCopy(other.m_path) : 0;
 }
 
 Path& Path::operator=(const Path& other)
@@ -122,7 +124,7 @@ Path& Path::operator=(const Path& other)
     CGMutablePathRef path = other.m_path ? CGPathCreateMutableCopy(other.m_path) : 0;
     if (m_path)
         CGPathRelease(m_path);
-    m_path = path;
+    m_path = (CGPathRef)path;
     return *this;
 }
 
@@ -133,21 +135,21 @@ static void copyClosingSubpathsApplierFunction(void* info, const CGPathElement* 
     
     switch (element->type) {
     case kCGPathElementMoveToPoint:
-        if (!CGPathIsEmpty(path)) // to silence a warning when trying to close an empty path
+        if (!CGPathIsEmpty((CGPathRef)path)) // to silence a warning when trying to close an empty path
             CGPathCloseSubpath(path); // This is the only change from CGPathCreateMutableCopy
-        CGPathMoveToPoint(path, 0, points[0].x, points[0].y);
+        CGPathMoveToPoint((CGMutablePathRef)path, 0, points[0].x, points[0].y);
         break;
     case kCGPathElementAddLineToPoint:
-        CGPathAddLineToPoint(path, 0, points[0].x, points[0].y);
+        CGPathAddLineToPoint((CGMutablePathRef)path, 0, points[0].x, points[0].y);
         break;
     case kCGPathElementAddQuadCurveToPoint:
-        CGPathAddQuadCurveToPoint(path, 0, points[0].x, points[0].y, points[1].x, points[1].y);
+        CGPathAddQuadCurveToPoint((CGMutablePathRef)path, 0, points[0].x, points[0].y, points[1].x, points[1].y);
         break;
     case kCGPathElementAddCurveToPoint:
-        CGPathAddCurveToPoint(path, 0, points[0].x, points[0].y, points[1].x, points[1].y, points[2].x, points[2].y);
+        CGPathAddCurveToPoint((CGMutablePathRef)path, 0, points[0].x, points[0].y, points[1].x, points[1].y, points[2].x, points[2].y);
         break;
     case kCGPathElementCloseSubpath:
-        CGPathCloseSubpath(path);
+        CGPathCloseSubpath((CGMutablePathRef)path);
         break;
     }
 }
@@ -170,7 +172,7 @@ bool Path::contains(const FloatPoint &point, WindRule rule) const
 
     // CGPathContainsPoint returns false for non-closed paths, as a work-around, we copy and close the path first.  Radar 4758998 asks for a better CG API to use
     RetainPtr<CGMutablePathRef> path = adoptCF(copyCGPathClosingSubpaths(m_path));
-    bool ret = CGPathContainsPoint(path.get(), 0, point, rule == RULE_EVENODD ? true : false);
+    bool ret = CGPathContainsPoint((CGPathRef)path.get(), 0, point, rule == RULE_EVENODD ? true : false);
     return ret;
 }
 
@@ -209,12 +211,12 @@ void Path::transform(const AffineTransform& transform)
     CGAffineTransform transformCG = transform;
 #if PLATFORM(WIN)
     CGMutablePathRef path = CGPathCreateMutable();
-    CGPathAddPath(path, &transformCG, m_path);
+    CGPathAddPath((CGMutablePathRef)path, &transformCG, m_path);
 #else
     CGMutablePathRef path = CGPathCreateMutableCopyByTransformingPath(m_path, &transformCG);
 #endif
     CGPathRelease(m_path);
-    m_path = path;
+    m_path = (CGPathRef)path;
 }
 
 FloatRect Path::boundingRect() const
@@ -261,27 +263,27 @@ FloatRect Path::strokeBoundingRect(StrokeStyleApplier* applier) const
 
 void Path::moveTo(const FloatPoint& point)
 {
-    CGPathMoveToPoint(ensurePlatformPath(), nullptr, point.x(), point.y());
+    CGPathMoveToPoint((CGMutablePathRef)ensurePlatformPath(), nullptr, point.x(), point.y());
 }
 
 void Path::addLineTo(const FloatPoint& p)
 {
-    CGPathAddLineToPoint(ensurePlatformPath(), nullptr, p.x(), p.y());
+    CGPathAddLineToPoint((CGMutablePathRef)ensurePlatformPath(), nullptr, p.x(), p.y());
 }
 
 void Path::addQuadCurveTo(const FloatPoint& cp, const FloatPoint& p)
 {
-    CGPathAddQuadCurveToPoint(ensurePlatformPath(), nullptr, cp.x(), cp.y(), p.x(), p.y());
+    CGPathAddQuadCurveToPoint((CGMutablePathRef)ensurePlatformPath(), nullptr, cp.x(), cp.y(), p.x(), p.y());
 }
 
 void Path::addBezierCurveTo(const FloatPoint& cp1, const FloatPoint& cp2, const FloatPoint& p)
 {
-    CGPathAddCurveToPoint(ensurePlatformPath(), nullptr, cp1.x(), cp1.y(), cp2.x(), cp2.y(), p.x(), p.y());
+    CGPathAddCurveToPoint((CGMutablePathRef)ensurePlatformPath(), nullptr, cp1.x(), cp1.y(), cp2.x(), cp2.y(), p.x(), p.y());
 }
 
 void Path::addArcTo(const FloatPoint& p1, const FloatPoint& p2, float radius)
 {
-    CGPathAddArcToPoint(ensurePlatformPath(), nullptr, p1.x(), p1.y(), p2.x(), p2.y(), radius);
+    CGPathAddArcToPoint((CGMutablePathRef)ensurePlatformPath(), nullptr, p1.x(), p1.y(), p2.x(), p2.y(), radius);
 }
 
 void Path::platformAddPathForRoundedRect(const FloatRect& rect, const FloatSize& topLeftRadius, const FloatSize& topRightRadius, const FloatSize& bottomLeftRadius, const FloatSize& bottomRightRadius)
@@ -301,7 +303,7 @@ void Path::platformAddPathForRoundedRect(const FloatRect& rect, const FloatSize&
             radiusWidth = rectWidth / 2 - std::numeric_limits<CGFloat>::epsilon();
         if (rectHeight < 2 * radiusHeight)
             radiusHeight = rectHeight / 2 - std::numeric_limits<CGFloat>::epsilon();
-        CGPathAddRoundedRect(ensurePlatformPath(), nullptr, rectToDraw, radiusWidth, radiusHeight);
+        CGPathAddRoundedRect((CGMutablePathRef)ensurePlatformPath(), nullptr, rectToDraw, radiusWidth, radiusHeight);
         return;
     }
 #endif
@@ -315,19 +317,19 @@ void Path::closeSubpath()
     if (isNull())
         return;
 
-    CGPathCloseSubpath(m_path);
+    CGPathCloseSubpath((CGMutablePathRef)m_path);
 }
 
 void Path::addArc(const FloatPoint& p, float radius, float startAngle, float endAngle, bool clockwise)
 {
     // Workaround for <rdar://problem/5189233> CGPathAddArc hangs or crashes when passed inf as start or end angle
     if (std::isfinite(startAngle) && std::isfinite(endAngle))
-        CGPathAddArc(ensurePlatformPath(), nullptr, p.x(), p.y(), radius, startAngle, endAngle, clockwise);
+        CGPathAddArc((CGMutablePathRef)ensurePlatformPath(), nullptr, p.x(), p.y(), radius, startAngle, endAngle, clockwise);
 }
 
 void Path::addRect(const FloatRect& r)
 {
-    CGPathAddRect(ensurePlatformPath(), 0, r);
+    CGPathAddRect((CGMutablePathRef)ensurePlatformPath(), 0, r);
 }
 
 void Path::addEllipse(FloatPoint p, float radiusX, float radiusY, float rotation, float startAngle, float endAngle, bool anticlockwise)
@@ -336,12 +338,12 @@ void Path::addEllipse(FloatPoint p, float radiusX, float radiusY, float rotation
     transform.translate(p.x(), p.y()).rotate(rad2deg(rotation)).scale(radiusX, radiusY);
 
     CGAffineTransform cgTransform = transform;
-    CGPathAddArc(ensurePlatformPath(), &cgTransform, 0, 0, 1, startAngle, endAngle, anticlockwise);
+    CGPathAddArc((CGMutablePathRef)ensurePlatformPath(), &cgTransform, 0, 0, 1, startAngle, endAngle, anticlockwise);
 }
 
 void Path::addEllipse(const FloatRect& r)
 {
-    CGPathAddEllipseInRect(ensurePlatformPath(), 0, r);
+    CGPathAddEllipseInRect((CGMutablePathRef)ensurePlatformPath(), 0, r);
 }
 
 void Path::addPath(const Path& path, const AffineTransform& transform)
@@ -356,11 +358,11 @@ void Path::addPath(const Path& path, const AffineTransform& transform)
     // CG doesn't allow adding a path to itself. Optimize for the common case
     // and copy the path for the self referencing case.
     if (ensurePlatformPath() != path.platformPath()) {
-        CGPathAddPath(ensurePlatformPath(), &transformCG, path.platformPath());
+        CGPathAddPath((CGMutablePathRef)ensurePlatformPath(), &transformCG, path.platformPath());
         return;
     }
     CGPathRef pathCopy = CGPathCreateCopy(path.platformPath());
-    CGPathAddPath(ensurePlatformPath(), &transformCG, pathCopy);
+    CGPathAddPath((CGMutablePathRef)ensurePlatformPath(), &transformCG, pathCopy);
     CGPathRelease(pathCopy);
 }
 
@@ -371,7 +373,7 @@ void Path::clear()
         return;
 
     CGPathRelease(m_path);
-    m_path = CGPathCreateMutable();
+    m_path = (CGPathRef)CGPathCreateMutable();
 }
 
 bool Path::isEmpty() const

@@ -26,6 +26,7 @@
 #pragma once
 
 #import <wtf/Platform.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 #if ENABLE(DATA_DETECTION)
 

@@ -37,7 +37,7 @@
 #include <wtf/StdLibExtras.h>
 #include <wtf/text/StringHash.h>
 
-#if PLATFORM(IOS)
+#if PLATFORM(IOS) || PLATFORM(GNUSTEP)
 #include <CFNetwork/CFNetwork.h>
 #endif
 

@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, NSSharingServicePickerStyle) {
     NSSharingServicePickerStyleRollover = 1,
     NSSharingServicePickerStyleTextSelection = 2,
     NSSharingServicePickerStyleDataDetector = 3
-} NS_ENUM_AVAILABLE_MAC(10_10);
+};
 
 @interface NSSharingServicePicker (Private)
 @property NSSharingServicePickerStyle style;

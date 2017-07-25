@@ -133,7 +133,7 @@ void InspectorTimelineAgent::setAutoCaptureEnabled(ErrorString&, bool enabled)
 
 void InspectorTimelineAgent::setInstruments(ErrorString& errorString, const InspectorArray& instruments)
 {
-    Vector<Protocol::Timeline::Instrument> newInstruments;
+    Vector<Inspector::Protocol::Timeline::Instrument> newInstruments;
     newInstruments.reserveCapacity(instruments.length());
 
     for (auto instrumentValue : instruments) {
@@ -143,7 +143,7 @@ void InspectorTimelineAgent::setInstruments(ErrorString& errorString, const Insp
             return;
         }
 
-        std::optional<Protocol::Timeline::Instrument> instrumentType = Protocol::InspectorHelpers::parseEnumValueFromString<Protocol::Timeline::Instrument>(enumValueString);
+        std::optional<Inspector::Protocol::Timeline::Instrument> instrumentType = Inspector::Protocol::InspectorHelpers::parseEnumValueFromString<Inspector::Protocol::Timeline::Instrument>(enumValueString);
         if (!instrumentType) {
             errorString = makeString("Unexpected enum value: ", enumValueString);
             return;
@@ -198,8 +198,8 @@ void InspectorTimelineAgent::internalStart(const int* maxCallStackDepth)
         didCompleteCurrentRecord(TimelineRecordType::RenderingFrame);
     });
 
-    m_frameStartObserver->schedule(currentRunLoop(), kCFRunLoopEntry | kCFRunLoopAfterWaiting);
-    m_frameStopObserver->schedule(currentRunLoop(), kCFRunLoopExit | kCFRunLoopBeforeWaiting);
+    m_frameStartObserver->schedule(currentRunLoop(), (CFRunLoopActivity)(kCFRunLoopEntry | kCFRunLoopAfterWaiting));
+    m_frameStopObserver->schedule(currentRunLoop(), (CFRunLoopActivity)(kCFRunLoopExit | kCFRunLoopBeforeWaiting));
 
     // Create a runloop record and increment the runloop nesting level, to capture the current turn of the main runloop
     // (which is the outer runloop if recording started while paused in the debugger).

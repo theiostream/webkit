@@ -37,6 +37,7 @@
 #include "ScrollView.h"
 #include "WebCoreSystemInterface.h"
 #include <Carbon/Carbon.h>
+#import <QuartzCore/QuartzCore.h>
 #include <wtf/BlockObjCExceptions.h>
 #include <wtf/HashMap.h>
 #include <wtf/NeverDestroyed.h>
@@ -590,7 +591,7 @@ void ScrollbarThemeMac::setUpOverhangAreaBackground(CALayer *layer, const Color&
 
 void ScrollbarThemeMac::removeOverhangAreaBackground(CALayer *layer)
 {
-    layer.backgroundColor = nil;
+    layer.backgroundColor = NULL;
 }
 
 void ScrollbarThemeMac::setUpOverhangAreaShadow(CALayer *layer)
@@ -612,7 +613,7 @@ void ScrollbarThemeMac::setUpOverhangAreaShadow(CALayer *layer)
 
 void ScrollbarThemeMac::removeOverhangAreaShadow(CALayer *layer)
 {
-    layer.shadowPath = nil;
+    layer.shadowPath = NULL;
     layer.shadowOpacity = 0;
 }
 

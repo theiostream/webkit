@@ -31,6 +31,7 @@
 #include <wtf/Compiler.h>
 #include <wtf/OSObjectPtr.h>
 #include <wtf/RetainPtr.h>
+#include <dispatch/dispatch.h>
 
 enum NEFilterSourceStatus : NSInteger;
 

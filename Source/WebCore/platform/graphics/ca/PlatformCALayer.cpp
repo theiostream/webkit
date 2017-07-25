@@ -106,7 +106,7 @@ void PlatformCALayer::drawRepaintIndicator(CGContextRef context, PlatformCALayer
         boundsPath.addLineTo(FloatPoint(indicatorBox.x() + cornerChunk, indicatorBox.y()));
         boundsPath.closeSubpath();
 
-        CGContextAddPath(context, boundsPath.platformPath());
+        CGContextAddPath(context, (CGPathRef)boundsPath.platformPath());
         CGContextFillPath(context);
     }
 

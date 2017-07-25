@@ -23,6 +23,8 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if 0
+
 #include "config.h"
 #include "MemoryRelease.h"
 
@@ -99,3 +101,5 @@ void registerMemoryReleaseNotifyCallbacks()
 }
 
 } // namespace WebCore
+
+#endif

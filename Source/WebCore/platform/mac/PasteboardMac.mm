@@ -23,6 +23,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
+#import <ApplicationServices/ApplicationServices.h>
+
 #import "config.h"
 #import "Pasteboard.h"
 

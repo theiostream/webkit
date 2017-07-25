@@ -31,7 +31,7 @@
 
 #if ENABLE(SUBTLE_CRYPTO)
 
-#if OS(DARWIN) && !PLATFORM(GTK)
+#if PLATFORM(COCOA) && !PLATFORM(GTK)
 typedef struct _CCRSACryptor *CCRSACryptorRef;
 typedef CCRSACryptorRef PlatformRSAKey;
 #endif

@@ -38,6 +38,9 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#if OS(LINUX)
+#include <sys/file.h>
+#endif
 #include <unistd.h>
 #include <wtf/text/CString.h>
 #include <wtf/text/WTFString.h>

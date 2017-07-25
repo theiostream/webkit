@@ -26,6 +26,8 @@
 #include "config.h"
 #import "PlatformCALayerCocoa.h"
 
+#include <dispatch/dispatch.h>
+
 #import "AnimationUtilities.h"
 #import "GraphicsContext.h"
 #import "GraphicsLayerCA.h"
@@ -46,8 +48,8 @@
 #import "WebLayer.h"
 #import "WebSystemBackdropLayer.h"
 #import "WebTiledBackingLayer.h"
-#import <AVFoundation/AVPlayer.h>
-#import <AVFoundation/AVPlayerLayer.h>
+//#import <AVFoundation/AVPlayer.h>
+//#import <AVFoundation/AVPlayerLayer.h>
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 #import <wtf/BlockObjCExceptions.h>
@@ -63,9 +65,9 @@
 #import "ThemeMac.h"
 #endif
 
-SOFT_LINK_FRAMEWORK_OPTIONAL(AVFoundation)
+//SOFT_LINK_FRAMEWORK_OPTIONAL(AVFoundation)
 
-SOFT_LINK_CLASS_OPTIONAL(AVFoundation, AVPlayerLayer)
+//SOFT_LINK_CLASS_OPTIONAL(AVFoundation, AVPlayerLayer)
 
 using namespace WebCore;
 
@@ -86,7 +88,7 @@ PlatformCALayer* PlatformCALayer::platformCALayer(void* platformLayer)
         return 0;
 
     // Pointer to PlatformCALayer is kept in a key of the CALayer
-    PlatformCALayer* platformCALayer = nil;
+    PlatformCALayer* platformCALayer = NULL;
     BEGIN_BLOCK_OBJC_EXCEPTIONS
     platformCALayer = static_cast<PlatformCALayer*>([[static_cast<CALayer*>(platformLayer) valueForKey:platformCALayerPointer] pointerValue]);
     END_BLOCK_OBJC_EXCEPTIONS
@@ -192,8 +194,8 @@ static NSString *toCAFilterType(PlatformCALayer::FilterType type)
 
 PlatformCALayer::LayerType PlatformCALayerCocoa::layerTypeForPlatformLayer(PlatformLayer* layer)
 {
-    if ([layer isKindOfClass:getAVPlayerLayerClass()] || [layer isKindOfClass:objc_getClass("WebVideoContainerLayer")])
-        return LayerTypeAVPlayerLayer;
+    //if ([layer isKindOfClass:getAVPlayerLayerClass()] || [layer isKindOfClass:objc_getClass("WebVideoContainerLayer")])
+    //    return LayerTypeAVPlayerLayer;
 
     if ([layer isKindOfClass:[WebGLLayer class]])
         return LayerTypeContentsProvidedLayer;
@@ -251,9 +253,9 @@ PlatformCALayerCocoa::PlatformCALayerCocoa(LayerType layerType, PlatformCALayerC
     case LayerTypePageTiledBackingLayer:
         layerClass = [WebTiledBackingLayer class];
         break;
-    case LayerTypeAVPlayerLayer:
-        layerClass = getAVPlayerLayerClass();
-        break;
+//    case LayerTypeAVPlayerLayer:
+//        layerClass = getAVPlayerLayerClass();
+//        break;
     case LayerTypeContentsProvidedLayer:
         // We don't create PlatformCALayerCocoas wrapped around WebGLLayers or WebGPULayers.
         ASSERT_NOT_REACHED();
@@ -349,7 +351,7 @@ Ref<PlatformCALayer> PlatformCALayerCocoa::clone(PlatformCALayerClient* owner) c
     newLayer->copyFiltersFrom(*this);
     newLayer->updateCustomAppearance(customAppearance());
 
-    if (type == LayerTypeAVPlayerLayer) {
+    /*if (type == LayerTypeAVPlayerLayer) {
         ASSERT([newLayer->platformLayer() isKindOfClass:getAVPlayerLayerClass()]);
 
         AVPlayerLayer *destinationPlayerLayer = static_cast<PlatformCALayerCocoa&>(newLayer.get()).avPlayerLayer();
@@ -359,7 +361,7 @@ Ref<PlatformCALayer> PlatformCALayerCocoa::clone(PlatformCALayerClient* owner) c
         dispatch_async(dispatch_get_main_queue(), ^{
             [destinationPlayerLayer setPlayer:[sourcePlayerLayer player]];
         });
-    }
+    }*/
     
     if (type == LayerTypeShapeLayer)
         newLayer->setShapeRoundedRect(shapeRoundedRect());
@@ -372,7 +374,7 @@ PlatformCALayerCocoa::~PlatformCALayerCocoa()
     [m_layer setValue:nil forKey:platformCALayerPointer];
     
     // Remove the owner pointer from the delegate in case there is a pending animationStarted event.
-    [static_cast<WebAnimationDelegate*>(m_delegate.get()) setOwner:nil];
+    [static_cast<WebAnimationDelegate*>(m_delegate.get()) setOwner:NULL];
 
     if (usesTiledBackingLayer())
         [static_cast<WebTiledBackingLayer *>(m_layer.get()) invalidate];
@@ -793,7 +795,7 @@ void PlatformCALayerCocoa::setBorderColor(const Color& value)
         END_BLOCK_OBJC_EXCEPTIONS
     } else {
         BEGIN_BLOCK_OBJC_EXCEPTIONS
-        [m_layer setBorderColor:nil];
+        [m_layer setBorderColor:NULL];
         END_BLOCK_OBJC_EXCEPTIONS
     }
 }
@@ -1214,7 +1216,7 @@ unsigned PlatformCALayerCocoa::backingStoreBytesPerPixel() const
     return 4;
 }
 
-AVPlayerLayer *PlatformCALayerCocoa::avPlayerLayer() const
+/*AVPlayerLayer *PlatformCALayerCocoa::avPlayerLayer() const
 {
     if (layerType() != LayerTypeAVPlayerLayer)
         return nil;
@@ -1230,4 +1232,4 @@ AVPlayerLayer *PlatformCALayerCocoa::avPlayerLayer() const
 
     ASSERT_NOT_REACHED();
     return nil;
-}
+}*/

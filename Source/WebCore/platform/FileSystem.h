@@ -41,7 +41,7 @@
 #include <wtf/RetainPtr.h>
 #endif
 
-#if USE(CF)
+#if USE(CF) && !defined(__COREFOUNDATION_CFBUNDLE__)
 typedef struct __CFBundle* CFBundleRef;
 typedef const struct __CFData* CFDataRef;
 #endif

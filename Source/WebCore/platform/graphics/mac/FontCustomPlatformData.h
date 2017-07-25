@@ -28,7 +28,12 @@
 #include <wtf/RetainPtr.h>
 
 typedef struct CGFont* CGFontRef;
+
+#if !PLATFORM(GNUSTEP)
 typedef const struct __CTFontDescriptor* CTFontDescriptorRef;
+#else
+typedef struct OPFontDescriptor *CTFontDescriptorRef;
+#endif
 
 namespace WebCore {
 

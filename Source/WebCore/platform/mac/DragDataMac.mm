@@ -33,6 +33,8 @@
 #import "PlatformStrategies.h"
 #import "WebCoreNSURLExtras.h"
 
+#import <ApplicationServices/ApplicationServices.h>
+
 #if USE(APPLE_INTERNAL_SDK)
 
 #import <WebKitAdditions/DragDataAdditions.mm>

@@ -28,6 +28,7 @@
 
 #if ENABLE(SUBTLE_CRYPTO)
 
+#include <dispatch/dispatch.h>
 #include "CommonCryptoDERUtilities.h"
 #include "CommonCryptoUtilities.h"
 #include "CryptoAlgorithmRegistry.h"

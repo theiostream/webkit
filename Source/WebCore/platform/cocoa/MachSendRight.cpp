@@ -23,6 +23,8 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if 0
+
 #include "config.h"
 #include "MachSendRight.h"
 
@@ -100,3 +102,5 @@ mach_port_t MachSendRight::leakSendRight()
 }
 
 }
+
+#endif

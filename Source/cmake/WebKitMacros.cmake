@@ -85,7 +85,9 @@ function(GENERATE_BINDINGS target)
         --idlFilesList ${idl_files_list}
         --preprocessor "${CODE_GENERATOR_PREPROCESSOR}"
         --idlAttributesFile ${idl_attributes_file})
+    message(STATUS "${arg_SUPPLEMENTAL_DEPFILE}")
     if (arg_SUPPLEMENTAL_DEPFILE)
+	message(STATUS "appending ${arg_SUPPLEMENTAL_DEPFILE}")
         list(APPEND args --supplementalDependencyFile ${arg_SUPPLEMENTAL_DEPFILE})
     endif ()
     if (PROCESSOR_COUNT)
@@ -142,6 +144,7 @@ function(GENERATE_BINDINGS target)
             list(APPEND act_args USES_TERMINAL)
         endif ()
     endif ()
+    message(STATUS "${binding_generator} ${args}")
     add_custom_target(${target}
         COMMAND ${PERL_EXECUTABLE} ${binding_generator} ${args}
         WORKING_DIRECTORY ${arg_BASE_DIR}
@@ -203,6 +206,7 @@ macro(GENERATE_SETTINGS_MACROS _infile _outfile)
         set_source_files_properties(${_extra_output} PROPERTIES GENERATED 1)
         set(_args)
     endif ()
+    message(STATUS "${PERL_EXECUTABLE} ${NAMES_GENERATOR} --input ${_infile} --outputDir ${DERIVED_SOURCES_WEBCORE_DIR}")
     add_custom_command(
         OUTPUT ${DERIVED_SOURCES_WEBCORE_DIR}/${_outfile}
         MAIN_DEPENDENCY ${_infile}

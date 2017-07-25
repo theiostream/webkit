@@ -101,7 +101,7 @@ void PerformanceLogging::didReachPointOfInterest(PointOfInterest poi)
 #endif
 }
 
-#if !PLATFORM(COCOA)
+#if !PLATFORM(COCOA) || PLATFORM(GNUSTEP)
 void PerformanceLogging::getPlatformMemoryUsageStatistics(HashMap<const char*, size_t>&) { }
 std::optional<uint64_t> PerformanceLogging::physicalFootprint() { return std::nullopt; }
 #endif

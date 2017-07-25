@@ -33,6 +33,8 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #endif
 
+#import <ApplicationServices/ApplicationServices.h>
+
 namespace WebCore {
 
 String MIMETypeForImageSourceType(const String& uti)

@@ -224,6 +224,7 @@ public:
     {
         StringRange copy(begin, end);
         Class cls = objc_getClass(copy);
+        NSLog(@"cls: %@", cls);
         if (!cls)
             return nullptr;
 

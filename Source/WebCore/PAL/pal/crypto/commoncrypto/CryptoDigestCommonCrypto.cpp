@@ -26,6 +26,7 @@
 #include "config.h"
 #include "CryptoDigest.h"
 
+#if 0
 #include <CommonCrypto/CommonCrypto.h>
 
 namespace PAL {
@@ -177,3 +178,5 @@ Vector<uint8_t> CryptoDigest::computeHash()
 }
 
 } // namespace PAL
+
+#endif

@@ -23,6 +23,8 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <ApplicationServices/ApplicationServices.h>
+
 #import "config.h"
 #import "PasteboardWriter.h"
 

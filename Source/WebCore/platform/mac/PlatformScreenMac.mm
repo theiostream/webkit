@@ -30,7 +30,10 @@
 #import "FloatRect.h"
 #import "FrameView.h"
 #import "HostWindow.h"
+
+#if !PLATFORM(GNUSTEP)
 #import <ColorSync/ColorSync.h>
+#endif
 
 extern "C" {
 bool CGDisplayUsesInvertedPolarity(void);

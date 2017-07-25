@@ -29,6 +29,8 @@
 #import "PlatformPasteboard.h"
 #import "SharedBuffer.h"
 
+#import <ApplicationServices/ApplicationServices.h>
+
 namespace WebCore {
 
 PlatformPasteboard::PlatformPasteboard(const String& pasteboardName)

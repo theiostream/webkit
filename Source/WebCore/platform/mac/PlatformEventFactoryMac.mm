@@ -31,10 +31,12 @@
 #import "NSMenuSPI.h"
 #import "PlatformScreen.h"
 #import "Scrollbar.h"
+#import <Carbon/Carbon.h>
 #import "WebCoreSystemInterface.h"
 #import "WindowsKeyboardCodes.h"
-#import <HIToolbox/Events.h>
-#import <mach/mach_time.h>
+//#import <HIToolbox/Events.h>
+#include <dispatch/dispatch.h>
+//#import <mach/mach_time.h>
 #import <wtf/ASCIICType.h>
 
 namespace WebCore {
@@ -588,10 +590,10 @@ static void updateSystemStartupTimeIntervalSince1970()
 {
     // CFAbsoluteTimeGetCurrent() provides the absolute time in seconds since 2001.
     // mach_absolute_time() provides a relative system time since startup minus the time the computer was suspended.
-    mach_timebase_info_data_t timebase_info;
+    /*mach_timebase_info_data_t timebase_info;
     mach_timebase_info(&timebase_info);
     double elapsedTimeSinceStartup = static_cast<double>(mach_absolute_time()) * timebase_info.numer / timebase_info.denom / 1e9;
-    systemStartupTime = kCFAbsoluteTimeIntervalSince1970 + CFAbsoluteTimeGetCurrent() - elapsedTimeSinceStartup;
+    systemStartupTime = kCFAbsoluteTimeIntervalSince1970 + CFAbsoluteTimeGetCurrent() - elapsedTimeSinceStartup;*/
 }
 
 static CFTimeInterval cachedStartupTimeIntervalSince1970()

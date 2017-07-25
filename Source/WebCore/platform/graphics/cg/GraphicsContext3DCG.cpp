@@ -25,6 +25,7 @@
  */
 
 #include "config.h"
+#include <CoreGraphics/CoreGraphics.h>
 
 #if ENABLE(GRAPHICS_CONTEXT_3D)
 

@@ -26,6 +26,7 @@
 #pragma once
 
 #include <ImageIO/ImageIOBase.h> 
+#define IMAGEIO_EXTERN extern
 
 #if USE(APPLE_INTERNAL_SDK)
 #include <ImageIO/CGImageSourcePrivate.h>

@@ -45,7 +45,7 @@ public:
 
     WEBCORE_EXPORT ~RunLoopObserver();
 
-    WEBCORE_EXPORT void schedule(CFRunLoopRef = nullptr, CFRunLoopActivity = kCFRunLoopBeforeWaiting | kCFRunLoopExit);
+    WEBCORE_EXPORT void schedule(CFRunLoopRef = nullptr, CFRunLoopActivity = (CFRunLoopActivity)(kCFRunLoopBeforeWaiting | kCFRunLoopExit));
     WEBCORE_EXPORT void invalidate();
 
     bool isScheduled() const { return m_runLoopObserver; }

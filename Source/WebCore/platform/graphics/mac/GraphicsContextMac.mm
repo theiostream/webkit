@@ -103,7 +103,7 @@ void GraphicsContext::drawFocusRing(const Vector<FloatRect>& rects, double timeO
     for (const auto& rect : rects)
         CGPathAddRect(focusRingPath.get(), 0, CGRect(rect));
 
-    needsRedraw = drawFocusRingToContextAtTime(platformContext(), focusRingPath.get(), timeOffset);
+    needsRedraw = drawFocusRingToContextAtTime(platformContext(), (CGPathRef)focusRingPath.get(), timeOffset);
 }
 #endif
 
@@ -117,7 +117,7 @@ void GraphicsContext::drawFocusRing(const Vector<FloatRect>& rects, float, float
     for (auto& rect : rects)
         CGPathAddRect(focusRingPath.get(), 0, CGRectInset(rect, -offset, -offset));
 
-    drawFocusRingToContext(platformContext(), focusRingPath.get());
+    drawFocusRingToContext(platformContext(), (CGPathRef)focusRingPath.get());
 #else
     UNUSED_PARAM(rects);
     UNUSED_PARAM(offset);

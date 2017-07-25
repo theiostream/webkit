@@ -26,7 +26,7 @@
 #pragma once
 
 #include "CredentialBase.h"
-#include <Security/SecBase.h>
+//#include <Security/SecBase.h>
 #include <wtf/RetainPtr.h>
 
 #if USE(CFURLCONNECTION)

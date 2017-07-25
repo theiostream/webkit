@@ -23,6 +23,8 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <CoreText/CoreText.h>
+
 #include "config.h"
 #include "Settings.h"
 

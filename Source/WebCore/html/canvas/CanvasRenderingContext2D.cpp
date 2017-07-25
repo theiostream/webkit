@@ -64,7 +64,7 @@
 #include <wtf/NeverDestroyed.h>
 #include <wtf/text/StringBuilder.h>
 
-#if USE(CG) && !PLATFORM(IOS)
+#if USE(CG) && !PLATFORM(IOS) && !PLATFORM(GNUSTEP)
 #include <ApplicationServices/ApplicationServices.h>
 #endif
 

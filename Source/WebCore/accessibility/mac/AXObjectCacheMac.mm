@@ -28,6 +28,8 @@
 
 #if HAVE(ACCESSIBILITY)
 
+#import <ApplicationServices/ApplicationServices.h>
+
 #import "AccessibilityObject.h"
 #import "AccessibilityTable.h"
 #import "RenderObject.h"

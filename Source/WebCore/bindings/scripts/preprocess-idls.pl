@@ -22,6 +22,8 @@ use strict;
 use FindBin;
 use lib $FindBin::Bin;
 
+print "WUUUUT";
+
 use File::Basename;
 use Getopt::Long;
 use Cwd;

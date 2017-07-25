@@ -56,7 +56,7 @@ String openTemporaryFile(const String& prefix, PlatformFileHandle& platformFileH
     platformFileHandle = invalidPlatformFileHandle;
     
     Vector<char> temporaryFilePath(PATH_MAX);
-    if (!confstr(_CS_DARWIN_USER_TEMP_DIR, temporaryFilePath.data(), temporaryFilePath.size()))
+    //if (!confstr(_CS_DARWIN_USER_TEMP_DIR, temporaryFilePath.data(), temporaryFilePath.size()))
         return String();
 
     // Shrink the vector.   
@@ -87,7 +87,7 @@ bool moveFile(const String& oldPath, const String& newPath)
     auto delegate = adoptNS([[WebFileManagerDelegate alloc] init]);
     [manager setDelegate:delegate.get()];
     
-    return [manager moveItemAtURL:[NSURL fileURLWithPath:oldPath] toURL:[NSURL fileURLWithPath:newPath] error:nil];
+    return [manager moveItemAtURL:[NSURL fileURLWithPath:oldPath] toURL:[NSURL fileURLWithPath:newPath] error:NULL];
 }
 
 bool getVolumeFreeSpace(const String& path, uint64_t& freeSpace)
